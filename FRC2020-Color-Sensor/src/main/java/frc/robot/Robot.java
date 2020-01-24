@@ -24,9 +24,9 @@ import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.commands.MoveShoulder;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
-import edu.wpi.wpilibj.util.Color;
-import com.revrobotics.ColoSensorV3;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorSensorV3;
 
 
 public class Robot extends TimedRobot {
