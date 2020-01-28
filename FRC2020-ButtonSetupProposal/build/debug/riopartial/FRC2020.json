@@ -1,9 +1,0 @@
-[
-  {
-    "artifact": "frcJava (in project FRC2020)",
-    "target": "roborio",
-    "debugfile": "frcJava_roborio.debugconfig",
-    "project": "FRC2020",
-    "language": "java"
-  }
-]
