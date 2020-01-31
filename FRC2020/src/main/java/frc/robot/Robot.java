@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 import frc.robot.RobotMap;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
 	Joystick rightstick = RobotMap.rightJoystick;
 	ColorSensorV3 m_colorSensor = RobotMap.colorSensor;
 	ColorMatch m_colorMatcher = RobotMap.colorMatcher;
+	Shooter shooter = new Shooter();
 
 	public static DriveTrain driveTrain;
 	public static OI m_oi;
@@ -105,6 +107,14 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("Detected Color", colorString);
 		// SmartDashboard.putNumber("IR", IR);
 		SmartDashboard.putNumber("Proximity", proximity);
+
+		if (m_oi.shoot.get() == true){
+			shooter.shoot(m_oi.shooterspeed);
+		}
+
+		else if (m_oi.shoot.get() == false){
+			shooter.stop();
+		}
 	}
 
 	@Override

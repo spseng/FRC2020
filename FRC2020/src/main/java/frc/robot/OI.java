@@ -12,6 +12,7 @@ public class OI {
 	XboxController xbox = RobotMap.xboxController;
 
 	boolean grabberState = true;
+	double shooterspeed = 10;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
 	Button leftbutton3 = new JoystickButton(leftStick, 3), leftbutton4 = new JoystickButton(leftStick, 4);
@@ -22,8 +23,8 @@ public class OI {
 
 	// kA = 1, kB = 2, kX = 3, kY = 4,
 	// A-Button to increase, Y-Button to decrease shooter speed
-	Button decreaseShooterSpeed = new JoystickButton(xbox, 1);
-	Button increaseShooterSpeed = new JoystickButton(xbox, 4);
+	Button shoot = new JoystickButton(xbox, 4);
+	//Button increaseShooterSpeed = new JoystickButton(xbox, 4);
 
 	// X and B for control panel spin (counterclockwise/clockwise)
 
