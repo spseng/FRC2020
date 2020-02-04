@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
 
-public class OI {
+public class OI{
 
 	Joystick leftStick = RobotMap.leftJoystick;
 	Joystick rightStick = RobotMap.rightJoystick;
-	XboxController xbox = RobotMap.xboxController;
+	public static XboxController xbox = RobotMap.xboxController;
 
 	boolean grabberState = true;
 
@@ -19,19 +19,6 @@ public class OI {
 	Button rightbutton1 = new JoystickButton(rightStick, 1), rightbutton2 = new JoystickButton(rightStick, 2);
 	Button rightbutton3 = new JoystickButton(rightStick, 3), rightbutton4 = new JoystickButton(rightStick, 4);
 	Button rightbutton5 = new JoystickButton(rightStick, 5), rightbutton6 = new JoystickButton(rightStick, 6);
-
-	// kA = 1, kB = 2, kX = 3, kY = 4,
-	// A-Button to increase, Y-Button to decrease shooter speed
-	Button decreaseShooterSpeed = new JoystickButton(xbox, 1);
-	Button increaseShooterSpeed = new JoystickButton(xbox, 4);
-
-	// X and B for control panel spin (counterclockwise/clockwise)
-
-	Button controlPanelClockwise = new JoystickButton(xbox, 3);
-	Button controlPanelCounterclockwise = new JoystickButton(xbox, 4);
-
-	// Gets the pressed xbox bumper (Used in MoveShoulder command)
-	// 0 no bumper; 1 left bumper; 2 right bumper
 
 	public double getLeftSpeed() {
 		if (leftStick.getY() > 0.1 || leftStick.getY() < -0.1) {
@@ -48,6 +35,7 @@ public class OI {
 			return 0.0;
 		}
 	}
+
 
 	public boolean grabberState() {
 		if (grabberState == false) {

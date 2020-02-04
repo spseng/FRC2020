@@ -21,15 +21,15 @@ public class RobotMap {
 	public static Spark Grabber = new Spark(0);
 	public static Spark Conveyor = new Spark(1);
 	public static Spark Spinner = new Spark(2);
-	public static Spark LeftGatherer = new Spark(3);
-	public static Spark RightGatherer = new Spark(4);
+	public static Spark leftGatherer = new Spark(3);
+	public static Spark rightGatherer = new Spark(4);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(0);
 	public static XboxController xboxController = new XboxController(2);
 
-	// Sensors setup
+	// Color Sensor setup
 	public static I2C.Port i2cPort = I2C.Port.kOnboard;
 	public static ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 	public static ColorMatch colorMatcher = new ColorMatch();

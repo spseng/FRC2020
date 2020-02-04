@@ -13,7 +13,6 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.RobotMap;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 
@@ -21,8 +20,6 @@ public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
 	Joystick leftstick = RobotMap.leftJoystick;
 	Joystick rightstick = RobotMap.rightJoystick;
-	ColorSensorV3 m_colorSensor = RobotMap.colorSensor;
-	ColorMatch m_colorMatcher = RobotMap.colorMatcher;
 
 	public static DriveTrain driveTrain;
 	public static OI m_oi;
@@ -43,10 +40,10 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		GreenLED_ON = false;
 
-		m_colorMatcher.addColorMatch(kBlueTarget);
-		m_colorMatcher.addColorMatch(kGreenTarget);
-		m_colorMatcher.addColorMatch(kRedTarget);
-		m_colorMatcher.addColorMatch(kYellowTarget);
+		RobotMap.colorMatcher.addColorMatch(kBlueTarget);
+		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
+		RobotMap.colorMatcher.addColorMatch(kRedTarget);
+		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
 	}
 
 	@Override
@@ -80,11 +77,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		// periodically gets the detected color from Sensor
-		Color detectedColor = m_colorSensor.getColor();
+		Color detectedColor = RobotMap.colorSensor.getColor();
 		String colorString;
-		ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+		ColorMatchResult match = RobotMap.colorMatcher.matchClosestColor(detectedColor);
 		// double IR = m_colorSensor.getIR();
-		int proximity = m_colorSensor.getProximity();
+		int proximity = RobotMap.colorSensor.getProximity();
 
 		if (match.color == kBlueTarget) {
 			colorString = "Blue";
