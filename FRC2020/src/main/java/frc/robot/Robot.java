@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ColorCycle;
 import frc.robot.RobotMap;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -22,7 +24,7 @@ public class Robot extends TimedRobot {
 	Joystick rightstick = RobotMap.rightJoystick;
 
 	public static DriveTrain driveTrain;
-	public static OI m_oi;
+	public static OI OI;
 
 	boolean Xon = false;
 	public static boolean toggle = false;
@@ -37,7 +39,7 @@ public class Robot extends TimedRobot {
 
 		// CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
-		m_oi = new OI();
+		OI = new OI();
 		GreenLED_ON = false;
 
 		RobotMap.colorMatcher.addColorMatch(kBlueTarget);
@@ -80,7 +82,6 @@ public class Robot extends TimedRobot {
 		Color detectedColor = RobotMap.colorSensor.getColor();
 		String colorString;
 		ColorMatchResult match = RobotMap.colorMatcher.matchClosestColor(detectedColor);
-		// double IR = m_colorSensor.getIR();
 		int proximity = RobotMap.colorSensor.getProximity();
 
 		if (match.color == kBlueTarget) {
@@ -100,8 +101,19 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
-		// SmartDashboard.putNumber("IR", IR);
 		SmartDashboard.putNumber("Proximity", proximity);
+
+		if (OI.shoot() == true) {
+			Shooter.shooterShoot(OI.shooterspeed);
+		} else if (OI.shoot() == false) {
+			Shooter.shooterStop();
+		}
+
+		if (OI.cycle() == true) {
+			ColorCycle.colorCycleStart();
+		} else if (OI.cycle() == false) {
+			ColorCycle.colorCycleStop();
+		}
 	}
 
 	@Override
