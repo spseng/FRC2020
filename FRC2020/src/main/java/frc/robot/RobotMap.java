@@ -12,10 +12,10 @@ import com.revrobotics.ColorMatch;
 public class RobotMap {
 
 	// Talon Speed Controller
-	public static WPI_TalonSRX LeftMotor = new WPI_TalonSRX(1);
-	public static WPI_TalonSRX RightMotor = new WPI_TalonSRX(2);
-	public static WPI_TalonSRX Winch = new WPI_TalonSRX(3);
-	public static WPI_TalonSRX Shooter = new WPI_TalonSRX(4);
+	public static WPI_TalonSRX LeftMotor = new WPI_TalonSRX(2);
+	public static WPI_TalonSRX RightMotor = new WPI_TalonSRX(3);
+	public static WPI_TalonSRX Winch = new WPI_TalonSRX(4);
+	public static WPI_TalonSRX Shooter = new WPI_TalonSRX(5);
 
 	// Spark/Spike motors setup
 	public static Spark Grabber = new Spark(0);
