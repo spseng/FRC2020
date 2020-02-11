@@ -22,6 +22,7 @@ public class RobotMap {
 	public static Spark Conveyor = new Spark(1);
 	public static Spark Spinner = new Spark(2);
 	public static Spark Gatherer = new Spark(3);
+	public static Spark Flap = new Spark(4);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);

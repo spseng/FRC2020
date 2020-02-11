@@ -48,11 +48,11 @@ public class OI {
 	}
 
 	public boolean shoot() {
-		if (xbox.getAButton() == true) {
-			return true;
-		} else {
-			return false;
-		}
+		return xbox.getAButton();
+	}
+
+	public boolean flap() {
+		return xbox.getYButton();
 	}
 
 	public boolean cycle() {
@@ -72,7 +72,6 @@ public class OI {
 			return 0;
 		}
 	}
-
 	/*
 	 * public double shootSpeed() { if (xbox.getTriggerAxis() == ) }
 	 */

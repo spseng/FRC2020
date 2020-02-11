@@ -4,6 +4,7 @@ package frc.robot;
 // import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,6 +14,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Flap;
 import frc.robot.subsystems.ColorCycle;
 import frc.robot.RobotMap;
 import com.revrobotics.ColorMatch;
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+	public boolean flapButtonPressed = false;
+	public Flap flap = new Flap();
 
 	@Override
 	public void robotInit() {
@@ -100,6 +104,15 @@ public class Robot extends TimedRobot {
 			Shooter.shooterShoot(OI.valueShooterSpeed);
 		} else if (OI.shoot() == false) {
 			Shooter.shooterStop();
+		}
+
+		if (OI.flap() == true) {
+			if (flapButtonPressed == false) {
+				flap.move();
+				flapButtonPressed = true;
+			}
+		} else {
+			flapButtonPressed = true;
 		}
 
 		if (OI.cycle() == true) {
