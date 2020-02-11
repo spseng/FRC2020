@@ -114,39 +114,42 @@ public class Robot extends TimedRobot {
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
 		}
+
+		if (OI.shootSpeed() == 1) {
+			OI.shooterspeed = OI.shooterspeed ++;
+		} if else (OI.shootspeed() == 2) {
+			OI.shooterspeed = OI.shooterspeed --;
+		} else {
+			OI.shooterspeed = OI.shooterspeed;
+		}
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		/*
-		// Left trigger pressed, end OI commands and start tape script 
-		if (leftstick.getTriggerPressed() && toggle == false) {
-			RobotMap.GreenLED.set(Relay.Value.kForward);
-			Scheduler.getInstance().removeAll(); 
-			Scheduler.getInstance().add(newautonomous(1)); 
-			toggle = true; 
-		}
-		
-		// Right trigger pressed, end OI commands and start ball script 
-		if (rightstick.getTriggerPressed() && toggle == false) {
-			Scheduler.getInstance().removeAll(); 
-			Scheduler.getInstance().add(newautonomous(2)); 
-			toggle = true;
-		}
-			
-		// Both triggers released, end autoomous scripts and start OI scripts 
-		if (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() && toggle){ 
-			DriverStation.reportError("TRIGGER", false);
-			RobotMap.GreenLED.set(Relay.Value.kReverse); 
-			Scheduler.getInstance().add(newautonomous(0)); 
-			OICommands(); toggle = false; 
-		}
-		*/
+		 * // Left trigger pressed, end OI commands and start tape script if
+		 * (leftstick.getTriggerPressed() && toggle == false) {
+		 * RobotMap.GreenLED.set(Relay.Value.kForward);
+		 * Scheduler.getInstance().removeAll();
+		 * Scheduler.getInstance().add(newautonomous(1)); toggle = true; }
+		 * 
+		 * // Right trigger pressed, end OI commands and start ball script if
+		 * (rightstick.getTriggerPressed() && toggle == false) {
+		 * Scheduler.getInstance().removeAll();
+		 * Scheduler.getInstance().add(newautonomous(2)); toggle = true; }
+		 * 
+		 * // Both triggers released, end autoomous scripts and start OI scripts if
+		 * (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() &&
+		 * toggle){ DriverStation.reportError("TRIGGER", false);
+		 * RobotMap.GreenLED.set(Relay.Value.kReverse);
+		 * Scheduler.getInstance().add(newautonomous(0)); OICommands(); toggle = false;
+		 * }
+		 */
 		Scheduler.getInstance().run();
 
 	}
 
-	//Adds commands to scheduler after leaving vision system control
+	// Adds commands to scheduler after leaving vision system control
 	void OICommands() {
 		Scheduler.getInstance().add(new autonomous(0));
 		Scheduler.getInstance().add(new DriveWithJoysticks());

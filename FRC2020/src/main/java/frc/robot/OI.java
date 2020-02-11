@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
 
-public class OI{
+public class OI {
 
 	Joystick leftStick = RobotMap.leftJoystick;
 	Joystick rightStick = RobotMap.rightJoystick;
@@ -63,25 +63,17 @@ public class OI{
 		}
 	}
 
-	/*public double shootSpeed() {
-		if (xbox.getTriggerAxis() == )
-	}*/
+	public int shootspeed() { 
+		if (xbox.getPOV() == 1) {
+			return 1;
+		} if else (xbox.getPOV() == 2) {
+			return 2 ;
+		} else {
+			return 0;
+		}
+	}
+
+	/*
+	 * public double shootSpeed() { if (xbox.getTriggerAxis() == ) }
+	 */
 }
-
-// extra example code if needed
-/*
- * 
- * //Gets the pressed xbox bumper (Used in MoveShoulder command) //0 no bumper;
- * 1 left bumper; 2 right bumper public int getBumpers(){ if (leftBumper.get()){
- * return 1; } else if (rightBumper.get()){ return 2; } else{ return 0; } }
- * 
- * //Not the actual speed of the elevator //Gets inputs from the xbox sticks
- * public double getElevatorSpeed() { if (xbox.getRawAxis(5) > 0.1 ||
- * xbox.getRawAxis(5) < -0.1) { return xbox.getRawAxis(5); } else { return 0.0;
- * } }
- * 
- * public double getGrabberSpeed() { if (xbox.getRawAxis(1) > 0.1 ||
- * xbox.getRawAxis(1) < -0.1) { return xbox.getRawAxis(1); } else { return 0.0;
- * } }
-
- */
