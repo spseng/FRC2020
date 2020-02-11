@@ -15,6 +15,7 @@ import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Flap;
+import frc.robot.subsystems.Harvester;
 import frc.robot.subsystems.ColorCycle;
 import frc.robot.RobotMap;
 import com.revrobotics.ColorMatch;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 	public boolean flapButtonPressed = false;
 	public boolean harvesterButtonPressed = false;
 	public Flap flap = new Flap();
+	public Harvester harvester = new Harvester();
 
 	@Override
 	public void robotInit() {
@@ -126,7 +128,7 @@ public class Robot extends TimedRobot {
 
 		if (OI.harvester() == true){
 			if (harvesterButtonPressed == false){
-				flap.move();
+				harvester.run();
 				harvesterButtonPressed = true;
 			}
 		}
