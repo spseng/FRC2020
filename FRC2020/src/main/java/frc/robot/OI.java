@@ -64,6 +64,10 @@ public class OI {
 		}
 	}
 
+	public boolean harvester() {
+		return xbox.getBButton(); //assigned B to harvester, can be changed if necessary
+	}
+
 	public int shootspeed() { 
 		if (xbox.getPOV() == 1) {
 			return 1;

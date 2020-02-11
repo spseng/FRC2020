@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 	public boolean flapButtonPressed = false;
+	public boolean harvesterButtonPressed = false;
 	public Flap flap = new Flap();
 
 	@Override
@@ -121,6 +122,16 @@ public class Robot extends TimedRobot {
 		}
 		else{
 			flapButtonPressed = true;
+		}
+
+		if (OI.harvester() == true){
+			if (harvesterButtonPressed == false){
+				flap.move();
+				harvesterButtonPressed = true;
+			}
+		}
+		else{
+			harvesterButtonPressed = true;
 		}
 
 
