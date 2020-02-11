@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+	public boolean flapButtonPressed = false;
 
 	@Override
 	public void robotInit() {
@@ -109,6 +110,18 @@ public class Robot extends TimedRobot {
 		} else if (OI.shoot() == false) {
 			Shooter.shooterStop();
 		}
+
+		if (OI.flap() == true){
+			if (flapButtonPressed == false){
+				Flap.move();
+				flapButtonPressed = true;
+			}
+		}
+		else{
+			flapButtonPressed = true;
+		}
+
+
 
 		if (OI.cycle() == true) {
 			ColorCycle.colorCycleStart();

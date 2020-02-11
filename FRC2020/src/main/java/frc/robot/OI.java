@@ -13,8 +13,7 @@ public class OI {
 
 	boolean grabberState = true;
 	double shooterspeed = 10;
-	//status of flap; false => closed, true => open
-	boolean flapState = false; 
+	
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
 	Button leftbutton3 = new JoystickButton(leftStick, 3), leftbutton4 = new JoystickButton(leftStick, 4);
