@@ -5,7 +5,7 @@ import frc.robot.Robot;
 import frc.robot.OI;
 
 public class DriveWithJoysticks extends Command {
-    OI oi = Robot.OI;
+    OI oi = new OI();
 
     public DriveWithJoysticks() {
         requires(Robot.driveTrain);

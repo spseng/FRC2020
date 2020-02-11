@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
@@ -23,6 +24,9 @@ public class RobotMap {
 	public static Spark Spinner = new Spark(2);
 	public static Spark Gatherer = new Spark(3);
 	public static Spark Flap = new Spark(4);
+
+	//Digital Input setup
+	public static DigitalInput topLimitSwitch = new DigitalInput(0);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);
