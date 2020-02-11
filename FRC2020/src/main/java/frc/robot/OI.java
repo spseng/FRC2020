@@ -67,7 +67,7 @@ public class OI {
 	public int shootspeed() { 
 		if (xbox.getPOV() == 1) {
 			return 1;
-		} if else (xbox.getPOV() == 2) {
+		} else if (xbox.getPOV() == 2) {
 			return 2 ;
 		} else {
 			return 0;
