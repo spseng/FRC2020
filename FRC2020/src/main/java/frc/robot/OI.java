@@ -9,7 +9,7 @@ public class OI{
 
 	Joystick leftStick = RobotMap.leftJoystick;
 	Joystick rightStick = RobotMap.rightJoystick;
-	public static XboxController xbox = RobotMap.xboxController;
+	public XboxController xbox = RobotMap.xboxController;
 
 	boolean grabberState = true;
 	double shooterspeed = 10;
@@ -62,6 +62,10 @@ public class OI{
 			return false;
 		}
 	}
+
+	/*public double shootSpeed() {
+		if (xbox.getTriggerAxis() == )
+	}*/
 }
 
 // extra example code if needed

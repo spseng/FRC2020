@@ -16,13 +16,12 @@ public class RobotMap {
 	public static WPI_TalonSRX RightMotor = new WPI_TalonSRX(3);
 	public static WPI_TalonSRX Winch = new WPI_TalonSRX(4);
 	public static WPI_TalonSRX Shooter = new WPI_TalonSRX(5);
+	public static WPI_TalonSRX Harvester = new WPI_TalonSRX(6);
 
 	// Spark/Spike motors setup
-	public static Spark Grabber = new Spark(0);
 	public static Spark Conveyor = new Spark(1);
 	public static Spark Spinner = new Spark(2);
-	public static Spark leftGatherer = new Spark(3);
-	public static Spark rightGatherer = new Spark(4);
+	public static Spark Gatherer = new Spark(3);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);
