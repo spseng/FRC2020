@@ -96,15 +96,8 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Green", detectedColor.green);
-		SmartDashboard.putNumber("Confidence", match.confidence);
-		SmartDashboard.putString("Detected Color", colorString);
-		SmartDashboard.putNumber("Proximity", proximity);
-
 		if (OI.shoot() == true) {
-			Shooter.shooterShoot(OI.shooterspeed);
+			Shooter.shooterShoot(OI.valueShooterSpeed);
 		} else if (OI.shoot() == false) {
 			Shooter.shooterStop();
 		}
@@ -115,13 +108,23 @@ public class Robot extends TimedRobot {
 			ColorCycle.colorCycleStop();
 		}
 
-		if (OI.shootSpeed() == 1) {
-			OI.shooterspeed = OI.shooterspeed ++;
-		} if else (OI.shootspeed() == 2) {
-			OI.shooterspeed = OI.shooterspeed --;
-		} else {
-			OI.shooterspeed = OI.shooterspeed;
+		if (OI.shootspeed() == 1) {
+			if (OI.valueShooterSpeed < 1) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.1;
+			}
+		} else if (OI.shootspeed() == 2) {
+			if (OI.valueShooterSpeed > 0) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.1;
+			}
 		}
+
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Confidence", match.confidence);
+		SmartDashboard.putString("Detected Color", colorString);
+		SmartDashboard.putNumber("Proximity", proximity);
+		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 	}
 
 	@Override

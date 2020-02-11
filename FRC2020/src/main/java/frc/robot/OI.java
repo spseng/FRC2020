@@ -12,7 +12,7 @@ public class OI {
 	public XboxController xbox = RobotMap.xboxController;
 
 	boolean grabberState = true;
-	double shooterspeed = 10;
+	double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
 	Button leftbutton3 = new JoystickButton(leftStick, 3), leftbutton4 = new JoystickButton(leftStick, 4);
@@ -63,11 +63,11 @@ public class OI {
 		}
 	}
 
-	public int shootspeed() { 
-		if (xbox.getPOV() == 1) {
+	public int shootspeed() {
+		if (xbox.getPOV() == 0) {
 			return 1;
-		} if else (xbox.getPOV() == 2) {
-			return 2 ;
+		} else if (xbox.getPOV() == 4) {
+			return 2;
 		} else {
 			return 0;
 		}
