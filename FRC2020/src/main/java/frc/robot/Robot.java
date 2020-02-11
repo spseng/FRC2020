@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.autonomous;
+import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ColorCycle;
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
 
 	//Adds commands to scheduler after leaving vision system control
 	void OICommands() {
-		Scheduler.getInstance().add(new autonomous(0));
+		Scheduler.getInstance().add(new Detector());
 		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 

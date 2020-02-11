@@ -3,8 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.NetOutput;
+import frc.robot.OI;
 
-public class autonomous extends Command {
+public class Detector extends Command {
+
+	OI oi = new OI();
 
 	int setpointMid = 320;
 	int setpointWidth = -150;
@@ -12,13 +15,9 @@ public class autonomous extends Command {
 	double reading;
 	NetOutput obj;
 
-	autonomous() {
-		requires(Robot.driveTrain);
-	}
-
-	public autonomous(int choice) {
+	public Detector() {
 		// Initialize Subsystem Object
-		obj = new NetOutput(choice);
+		obj = new NetOutput();
 	}
 
 	protected void initialize() {
@@ -26,6 +25,10 @@ public class autonomous extends Command {
 	}
 
 	protected void execute() {
+
+		int script_choice = get_script_choice();
+		obj.update_choice(script_choice);
+
 		// Store networktables output
 		double[] output = new double[2];
 		output = obj.get_output_of_selected_action();
@@ -47,6 +50,11 @@ public class autonomous extends Command {
 			Robot.driveTrain.tankDrive(speeds[0], speeds[1]); // Turns each motor according to the error.
 
 		}
+	}
+
+	protected int get_script_choice() {
+		//OI commands here
+		return 0;
 	}
 
 	protected double[] PID(double output) {
