@@ -15,6 +15,7 @@ import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Flap;
+import frc.robot.subsystems.Harvester;
 import frc.robot.subsystems.ColorCycle;
 import frc.robot.RobotMap;
 import com.revrobotics.ColorMatch;
@@ -36,7 +37,9 @@ public class Robot extends TimedRobot {
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 	public boolean flapButtonPressed = false;
+	public boolean harvesterButtonPressed = false;
 	public Flap flap = new Flap();
+	public Harvester harvester = new Harvester();
 
 	@Override
 	public void robotInit() {
@@ -113,6 +116,15 @@ public class Robot extends TimedRobot {
 			}
 		} else {
 			flapButtonPressed = true;
+		}
+
+		if (OI.harvester() == true) {
+			if (harvesterButtonPressed == false) {
+				Harvester.run();
+				harvesterButtonPressed = true;
+			}
+		} else {
+			harvesterButtonPressed = true;
 		}
 
 		if (OI.cycle() == true) {
