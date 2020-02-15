@@ -11,8 +11,8 @@ public class OI {
 	Joystick rightStick = RobotMap.rightJoystick;
 	public XboxController xbox = RobotMap.xboxController;
 
-	boolean grabberState = true;
-	double valueShooterSpeed = 0.5;
+	public boolean grabberState = true;
+	public double valueShooterSpeed = 1;// 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
 	Button leftbutton3 = new JoystickButton(leftStick, 3), leftbutton4 = new JoystickButton(leftStick, 4);
@@ -67,7 +67,7 @@ public class OI {
 		return xbox.getBButton(); // assigned B to harvester, can be changed if necessary
 	}
 
-	public int shootspeed() {
+	public int changeShooterSpeed() {
 		if (xbox.getPOV() == 1) {
 			return 1;
 		} else if (xbox.getPOV() == 4) {
@@ -76,7 +76,4 @@ public class OI {
 			return 0;
 		}
 	}
-	/*
-	 * public double shootSpeed() { if (xbox.getTriggerAxis() == ) }
-	 */
 }

@@ -109,6 +109,16 @@ public class Robot extends TimedRobot {
 			Shooter.shooterStop();
 		}
 
+		if (OI.changeShooterSpeed() == 1) {
+			if (OI.valueShooterSpeed < 1) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.1;
+			}
+		} else if (OI.changeShooterSpeed() == 2) {
+			if (OI.valueShooterSpeed > 0) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.1;
+			}
+		}
+
 		if (OI.flap() == true) {
 			if (flapButtonPressed == false) {
 				flap.move();
@@ -131,16 +141,6 @@ public class Robot extends TimedRobot {
 			ColorCycle.colorCycleStart();
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
-		}
-
-		if (OI.shootspeed() == 1) {
-			if (OI.valueShooterSpeed < 1) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.1;
-			}
-		} else if (OI.shootspeed() == 2) {
-			if (OI.valueShooterSpeed > 0) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.1;
-			}
 		}
 
 		SmartDashboard.putNumber("Red", detectedColor.red);
