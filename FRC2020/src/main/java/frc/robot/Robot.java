@@ -2,9 +2,9 @@ package frc.robot;
 
 // import edu.wpi.first.wpilibj.CameraServer;
 // import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
-// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,7 +14,6 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Flap;
 import frc.robot.subsystems.Harvester;
 import frc.robot.subsystems.ColorCycle;
 import frc.robot.RobotMap;
@@ -30,15 +29,12 @@ public class Robot extends TimedRobot {
 	public static OI OI;
 
 	boolean Xon = false;
-	public static boolean toggle = false;
+	// public static boolean toggle = false;
 	boolean GreenLED_ON = false;
 	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-	public boolean flapButtonPressed = false;
-	public boolean harvesterButtonPressed = false;
-	public Flap flap = new Flap();
 	public Harvester harvester = new Harvester();
 
 	@Override
@@ -119,22 +115,13 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		if (OI.flap() == true) {
-			if (flapButtonPressed == false) {
-				flap.move();
-				flapButtonPressed = true;
-			}
-		} else {
-			flapButtonPressed = true;
-		}
-
 		if (OI.harvester() == true) {
-			if (harvesterButtonPressed == false) {
+			if (OI.harvesterButtonPressed == false) {
 				Harvester.run();
-				harvesterButtonPressed = true;
+				OI.harvesterButtonPressed = true;
 			}
 		} else {
-			harvesterButtonPressed = true;
+			OI.harvesterButtonPressed = true;
 		}
 
 		if (OI.cycle() == true) {

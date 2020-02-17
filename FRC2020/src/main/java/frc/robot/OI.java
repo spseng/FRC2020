@@ -12,6 +12,7 @@ public class OI {
 	public XboxController xbox = RobotMap.xboxController;
 
 	public boolean grabberState = true;
+	public boolean harvesterButtonPressed = false;
 	public double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
@@ -49,10 +50,6 @@ public class OI {
 
 	public boolean shoot() {
 		return xbox.getAButton();
-	}
-
-	public boolean flap() {
-		return xbox.getYButton();
 	}
 
 	public boolean cycle() {
