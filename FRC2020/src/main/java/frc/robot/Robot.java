@@ -1,41 +1,58 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-//import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.CameraServer;
+// import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
+// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.autonomous;
+import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Flap;
+import frc.robot.subsystems.Harvester;
+import frc.robot.subsystems.ColorCycle;
+import frc.robot.RobotMap;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 
 public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
 	Joystick leftstick = RobotMap.leftJoystick;
 	Joystick rightstick = RobotMap.rightJoystick;
+
 	public static DriveTrain driveTrain;
-	public static OI m_oi;
+	public static OI OI;
+
 	boolean Xon = false;
-	boolean toggle = false;
+	public static boolean toggle = false;
 	boolean GreenLED_ON = false;
+	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+	public boolean flapButtonPressed = false;
+	public boolean harvesterButtonPressed = false;
+	public Flap flap = new Flap();
+	public Harvester harvester = new Harvester();
 
 	@Override
 	public void robotInit() {
 
-		//CameraServer.getInstance().startAutomaticCapture();
+		// CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
-		m_oi = new OI();
-		RobotMap.Gyro1.calibrate();
+		OI = new OI();
 		GreenLED_ON = false;
+
+		RobotMap.colorMatcher.addColorMatch(kBlueTarget);
+		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
+		RobotMap.colorMatcher.addColorMatch(kRedTarget);
+		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
 	}
 
 	@Override
@@ -66,43 +83,103 @@ public class Robot extends TimedRobot {
 		OICommands();
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
+	@Override
+	public void robotPeriodic() {
+		// periodically gets the detected color from Sensor
+		Color detectedColor = RobotMap.colorSensor.getColor();
+		String colorString;
+		ColorMatchResult match = RobotMap.colorMatcher.matchClosestColor(detectedColor);
+		int proximity = RobotMap.colorSensor.getProximity();
+
+		if (match.color == kBlueTarget) {
+			colorString = "Blue";
+		} else if (match.color == kRedTarget) {
+			colorString = "Red";
+		} else if (match.color == kGreenTarget) {
+			colorString = "Green";
+		} else if (match.color == kYellowTarget) {
+			colorString = "Yellow";
+		} else {
+			colorString = "Unknown";
+		}
+
+		if (OI.shoot() == true) {
+			Shooter.shooterShoot(OI.valueShooterSpeed);
+		} else if (OI.shoot() == false) {
+			Shooter.shooterStop();
+		}
+
+		if (OI.changeShooterSpeed() == 1) {
+			if (OI.valueShooterSpeed < 1) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
+			}
+		} else if (OI.changeShooterSpeed() == 2) {
+			if (OI.valueShooterSpeed > 0) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
+			}
+		}
+
+		if (OI.flap() == true) {
+			if (flapButtonPressed == false) {
+				flap.move();
+				flapButtonPressed = true;
+			}
+		} else {
+			flapButtonPressed = true;
+		}
+
+		if (OI.harvester() == true) {
+			if (harvesterButtonPressed == false) {
+				Harvester.run();
+				harvesterButtonPressed = true;
+			}
+		} else {
+			harvesterButtonPressed = true;
+		}
+
+		if (OI.cycle() == true) {
+			ColorCycle.colorCycleStart();
+		} else if (OI.cycle() == false) {
+			ColorCycle.colorCycleStop();
+		}
+
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Confidence", match.confidence);
+		SmartDashboard.putString("Detected Color", colorString);
+		SmartDashboard.putNumber("Proximity", proximity);
+		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
+	}
+
 	@Override
 	public void teleopPeriodic() {
-
-		// Left trigger pressed, end OI commands and start tape script
-		if (leftstick.getTriggerPressed() && toggle == false) {
-			RobotMap.GreenLED.set(Relay.Value.kForward);
-			Scheduler.getInstance().removeAll();
-			Scheduler.getInstance().add(new autonomous(1));
-			toggle = true;
-		}
-
-		// Right trigger pressed, end OI commands and start ball script
-		if (rightstick.getTriggerPressed() && toggle == false) {
-			Scheduler.getInstance().removeAll();
-			Scheduler.getInstance().add(new autonomous(2));
-			toggle = true;
-		}
-
-		// Both triggers released, end autoomous scripts and start OI scripts
-		if (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() && toggle) {
-			DriverStation.reportError("TRIGGER", false);
-			RobotMap.GreenLED.set(Relay.Value.kReverse);
-			Scheduler.getInstance().add(new autonomous(0));
-			OICommands();
-			toggle = false;
-		}
-
+		/*
+		 * // Left trigger pressed, end OI commands and start tape script if
+		 * (leftstick.getTriggerPressed() && toggle == false) {
+		 * RobotMap.GreenLED.set(Relay.Value.kForward);
+		 * Scheduler.getInstance().removeAll();
+		 * Scheduler.getInstance().add(newautonomous(1)); toggle = true; }
+		 * 
+		 * // Right trigger pressed, end OI commands and start ball script if
+		 * (rightstick.getTriggerPressed() && toggle == false) {
+		 * Scheduler.getInstance().removeAll();
+		 * Scheduler.getInstance().add(newautonomous(2)); toggle = true; }
+		 * 
+		 * // Both triggers released, end autoomous scripts and start OI scripts if
+		 * (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() &&
+		 * toggle){ DriverStation.reportError("TRIGGER", false);
+		 * RobotMap.GreenLED.set(Relay.Value.kReverse);
+		 * Scheduler.getInstance().add(newautonomous(0)); OICommands(); toggle = false;
+		 * }
+		 */
 		Scheduler.getInstance().run();
 
 	}
 
-	//Adds commands to scheduler after leaving vision system control
+	// Adds commands to scheduler after leaving vision system control
 	void OICommands() {
-		Scheduler.getInstance().add(new autonomous(0));
+		Scheduler.getInstance().add(new Detector());
 		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 

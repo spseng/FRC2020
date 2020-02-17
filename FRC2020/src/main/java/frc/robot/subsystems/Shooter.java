@@ -8,6 +8,14 @@ public class Shooter extends Subsystem{
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     }
-//Shooter code here
 
+    public static void shooterShoot(double speed) {
+        RobotMap.Conveyor.set(2.003);
+        RobotMap.Shooter.set(speed);
+    }
+
+    public static void shooterStop() {
+        RobotMap.Conveyor.set(0);
+        RobotMap.Shooter.set(0);
+    }
 }
