@@ -111,11 +111,11 @@ public class Robot extends TimedRobot {
 
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.1;
+				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
 			}
 		} else if (OI.changeShooterSpeed() == 2) {
 			if (OI.valueShooterSpeed > 0) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.1;
+				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
 			}
 		}
 

@@ -7,11 +7,11 @@ import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
-public class ColorCycle extends Subsystem{
+public class ColorCycle extends Subsystem {
     public static int colorCycle = 0;
 
     public void initDefaultCommand() {
-
+        // nice
     }
 
     public static void colorCycleStart() {
