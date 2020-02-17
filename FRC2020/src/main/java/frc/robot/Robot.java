@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
 	public boolean harvesterButtonPressed = false;
 	public Flap flap = new Flap();
 	public Harvester harvester = new Harvester();
+	int shooterCycle = 0;
 
 	@Override
 	public void robotInit() {
@@ -103,11 +104,23 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		if (OI.shoot() == true) {
+
+		if ((shooterCycle == 0) == false){
+			shooterCycle = shooterCycle +1;
+		} else if (OI.shoot() == true) {
 			Shooter.shooterShoot(OI.valueShooterSpeed);
-		} else if (OI.shoot() == false) {
+			shooterCycle = 1;
+		} else {
 			Shooter.shooterStop();
 		}
+
+
+		if (shooterCycle == 10){
+			Shooter.initiateShot();
+		} else if (shooterCycle == 20){
+			shooterCycle = 0;
+		}
+		
 
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
@@ -119,14 +132,6 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		if (OI.flap() == true) {
-			if (flapButtonPressed == false) {
-				flap.move();
-				flapButtonPressed = true;
-			}
-		} else {
-			flapButtonPressed = true;
-		}
 
 		if (OI.harvester() == true) {
 			if (harvesterButtonPressed == false) {
