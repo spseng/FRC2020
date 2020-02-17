@@ -17,5 +17,11 @@ public class Shooter extends Subsystem{
     public static void shooterStop() {
         RobotMap.Conveyor.set(0);
         RobotMap.Shooter.set(0);
+        RobotMap.Flap.set(0);
+    }
+
+    public static void initiateShot(){
+        RobotMap.Conveyor.set(1);
+        RobotMap.Flap.set(1);
     }
 }

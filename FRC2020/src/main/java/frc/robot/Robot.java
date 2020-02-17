@@ -1,8 +1,5 @@
 package frc.robot;
 
-// import edu.wpi.first.wpilibj.CameraServer;
-// import edu.wpi.first.wpilibj.DriverStation;
-// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -36,6 +33,7 @@ public class Robot extends TimedRobot {
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 	public Harvester harvester = new Harvester();
+	int shooterCycle = 0;
 
 	@Override
 	public void robotInit() {
@@ -99,10 +97,19 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		if (OI.shoot() == true) {
+		if ((shooterCycle == 0) == false) {
+			shooterCycle = shooterCycle + 1;
+		} else if (OI.shoot() == true) {
 			Shooter.shooterShoot(OI.valueShooterSpeed);
-		} else if (OI.shoot() == false) {
+			shooterCycle = 1;
+		} else {
 			Shooter.shooterStop();
+		}
+
+		if (shooterCycle == 10) {
+			Shooter.initiateShot();
+		} else if (shooterCycle == 20) {
+			shooterCycle = 0;
 		}
 
 		if (OI.changeShooterSpeed() == 1) {
@@ -141,25 +148,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		/*
-		 * // Left trigger pressed, end OI commands and start tape script if
-		 * (leftstick.getTriggerPressed() && toggle == false) {
-		 * RobotMap.GreenLED.set(Relay.Value.kForward);
-		 * Scheduler.getInstance().removeAll();
-		 * Scheduler.getInstance().add(newautonomous(1)); toggle = true; }
-		 * 
-		 * // Right trigger pressed, end OI commands and start ball script if
-		 * (rightstick.getTriggerPressed() && toggle == false) {
-		 * Scheduler.getInstance().removeAll();
-		 * Scheduler.getInstance().add(newautonomous(2)); toggle = true; }
-		 * 
-		 * // Both triggers released, end autoomous scripts and start OI scripts if
-		 * (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() &&
-		 * toggle){ DriverStation.reportError("TRIGGER", false);
-		 * RobotMap.GreenLED.set(Relay.Value.kReverse);
-		 * Scheduler.getInstance().add(newautonomous(0)); OICommands(); toggle = false;
-		 * }
-		 */
 		Scheduler.getInstance().run();
 
 	}

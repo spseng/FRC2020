@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
@@ -20,16 +19,13 @@ public class RobotMap {
 	public static WPI_TalonSRX Shooter = new WPI_TalonSRX(5);
 	public static WPI_TalonSRX Harvester = new WPI_TalonSRX(6);
 
-	// Spark/Spike motors setup
-	public static Spark Conveyor = new Spark(1);
-	public static Spark Spinner = new Spark(2);
-	public static Spark Gatherer = new Spark(3);
-	public static Spark Flap = new Spark(4);
+	// TalonSR motors setup
+	public static Talon Conveyor = new Talon(1);
+	public static Talon Spinner = new Talon(2);
+	public static Talon Gatherer = new Talon(3);
+	public static Talon Flap = new Talon(4);
 
-	// Talon SR Speed Controller (used as Spark)
-	public static Talon talon = new Talon(0); //What's the channel?
-
-	//Digital Input setup
+	// Digital Input setup
 	public static DigitalInput topLimitSwitch = new DigitalInput(0);
 
 	// Joysticks/Controllers setup
@@ -44,5 +40,4 @@ public class RobotMap {
 
 	// Relay
 	public static Relay GreenLED = new Relay(3);
-
 }
