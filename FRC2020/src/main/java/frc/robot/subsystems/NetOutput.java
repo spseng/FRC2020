@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,15 +12,24 @@ public class NetOutput extends Subsystem {
 	public static boolean teamState;
 	int input;
 	NetworkTableInstance net = NetworkTableInstance.getDefault();
+	NetworkTable team_data = net.getTable("team_data");
 	NetworkTable ball_table = net.getTable("ball_data");
 	NetworkTable ps_table = net.getTable("ps_data");
 
 	public NetOutput() {
+
 	}
 
 	public void update_choice(int choice) {
 		input = choice;
 		SmartDashboard.putNumber("DetectorScript choice", choice);
+	}
+
+	//Blue: true
+	//Red: false
+	public void update_team_color(Boolean color) {
+		NetworkTableEntry team_color = team_data.getEntry("team_color");
+		team_color.setBoolean(color);
 	}
 
 	public double[] get_output_of_selected_action() {

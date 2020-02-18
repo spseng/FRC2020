@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -52,10 +52,10 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
 
 		DriverStation.Alliance.valueOf(teamColor);
-		if (teamColor == "Red") {
-			NetOutput.teamState = true;
-		} else if (teamColor == "Blue") {
-			NetOutput.teamState = false;
+		if (teamColor == "Blue") {
+			Scheduler.getInstance().add(new Detector(true));
+		} else if (teamColor == "Red") {
+			Scheduler.getInstance().add(new Detector(false));
 		}
 		SmartDashboard.putString("Team Color", teamColor);
 	}
@@ -197,7 +197,7 @@ public class Robot extends TimedRobot {
 	}
 
 	void OICommands() {
-		Scheduler.getInstance().add(new Detector());
+		//Scheduler.getInstance().add(new Detector());
 		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 

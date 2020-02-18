@@ -15,13 +15,15 @@ public class Detector extends Command {
 	double reading;
 	NetOutput obj;
 
-	public Detector() {
+	public Detector(boolean color) {
 		// Initialize Subsystem Object
 		obj = new NetOutput();
+		obj.update_team_color(color);
 	}
 
-	protected void initialize() {
+	protected void initialize(boolean color) {
 		Robot.driveTrain.stop();
+		obj.update_team_color(color);
 	}
 
 	protected void execute() {
@@ -35,7 +37,8 @@ public class Detector extends Command {
 
 		// If stop signal is received, end command
 		if (output[0] == 0) {
-			end();
+			//As of now, if theres no script we just dont control motors
+
 		} else {
 			// PID
 			double[] speeds = PID(output[0]);
