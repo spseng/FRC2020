@@ -4,11 +4,11 @@ import java.util.concurrent.TimeUnit;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatchResult;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 public class ColorCycle extends Subsystem {
-    public static int colorCycle = 0;
+    public static double colorCycleValue = 0;
+    public static int colorsPassedValue = 0;
 
     public void initDefaultCommand() {
         // nice
@@ -29,13 +29,13 @@ public class ColorCycle extends Subsystem {
         ColorMatchResult secondColor = RobotMap.colorMatcher.matchClosestColor(twoColor);
 
         if (firstColor != secondColor) {
-            colorCycle = colorCycle + 1;
-            SmartDashboard.putNumber("Colors Passed", colorCycle);
+            colorCycleValue = colorCycleValue + 0.125;
+            colorsPassedValue = colorsPassedValue + 1;
         }
     }
 
     public static void colorCycleStop() {
         RobotMap.Spinner.set(0);
-        colorCycle = 0;
+        colorCycleValue = 0;
     }
 }

@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NetOutput extends Subsystem {
 
+	// set red is true and blue as false
+	public static boolean teamState;
 	int input;
 	NetworkTableInstance net = NetworkTableInstance.getDefault();
 	NetworkTable ball_table = net.getTable("ball_data");
@@ -59,7 +61,7 @@ public class NetOutput extends Subsystem {
 			def = convert(netOut);
 		}
 
-		//For networktables communication test
+		// For networktables communication test
 		SmartDashboard.putNumber("Detected midpoint x", def[0]);
 		SmartDashboard.putNumber("Detected midpoint y", def[1]);
 		SmartDashboard.putNumber("Detected width/radius", def[2]);

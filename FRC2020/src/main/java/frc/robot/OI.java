@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
 
@@ -13,6 +14,7 @@ public class OI {
 
 	public boolean grabberState = true;
 	public boolean harvesterButtonPressed = false;
+	public boolean onoffColorCycle = true;
 	public double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
@@ -38,30 +40,8 @@ public class OI {
 		}
 	}
 
-	public boolean grabberState() {
-		if (grabberState == false) {
-			grabberState = true;
-			return true;
-		} else {
-			grabberState = false;
-			return false;
-		}
-	}
-
-	public boolean shoot() {
-		return xbox.getAButton();
-	}
-
-	public boolean cycle() {
-		if (xbox.getXButton() == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean harvester() {
-		return xbox.getBButton(); // assigned B to harvester, can be changed if necessary
+	public double shoot() {
+		return xbox.getTriggerAxis(Hand.kRight);
 	}
 
 	public int changeShooterSpeed() {
@@ -72,5 +52,43 @@ public class OI {
 		} else {
 			return 0;
 		}
+	}
+
+	public boolean grabberState() {
+		if (grabberState == false) {
+			grabberState = true;
+			return true;
+		} else {
+			grabberState = false;
+			return false;
+		}
+	}
+
+	public boolean cycle() {
+		if (onoffColorCycle == true) {
+			if (xbox.getXButton() == true) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public boolean getXboxLeftBumper() {
+		return xbox.getBumper(Hand.kLeft);
+	}
+
+	public boolean harvester() {
+		return xbox.getYButton();
+	}
+
+	public boolean conveyor() {
+		return xbox.getBButton();
+	}
+
+	public boolean loader() {
+		return xbox.getAButton();
 	}
 }

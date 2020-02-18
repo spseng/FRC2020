@@ -22,8 +22,7 @@ public class RobotMap {
 	// TalonSR motors setup
 	public static Talon Conveyor = new Talon(1);
 	public static Talon Spinner = new Talon(2);
-	public static Talon Gatherer = new Talon(3);
-	public static Talon Flap = new Talon(4);
+	public static Talon Loader = new Talon(3);
 
 	// Digital Input setup
 	public static DigitalInput topLimitSwitch = new DigitalInput(0);

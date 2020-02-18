@@ -7,15 +7,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Harvester;
+import frc.robot.subsystems.BallManagement;
 import frc.robot.subsystems.ColorCycle;
-import frc.robot.RobotMap;
+import frc.robot.subsystems.NetOutput;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import java.util.concurrent.TimeUnit;
 
 public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
@@ -26,14 +28,14 @@ public class Robot extends TimedRobot {
 	public static OI OI;
 
 	boolean Xon = false;
-	// public static boolean toggle = false;
 	boolean GreenLED_ON = false;
+	String teamColor;
+	int shooterCycle = 0;
+
 	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-	public Harvester harvester = new Harvester();
-	int shooterCycle = 0;
 
 	@Override
 	public void robotInit() {
@@ -47,6 +49,14 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
 		RobotMap.colorMatcher.addColorMatch(kRedTarget);
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
+
+		DriverStation.Alliance.valueOf(teamColor);
+		if (teamColor == "Red") {
+			NetOutput.teamState = true;
+		} else if (teamColor == "Blue") {
+			NetOutput.teamState = false;
+		}
+		SmartDashboard.putString("Team Color", teamColor);
 	}
 
 	@Override
@@ -97,9 +107,25 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Confidence", match.confidence);
+		SmartDashboard.putString("Detected Color", colorString);
+		SmartDashboard.putNumber("Proximity", proximity);
+		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
+		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
+		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
+
+	}
+
+	@Override
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+
 		if ((shooterCycle == 0) == false) {
 			shooterCycle = shooterCycle + 1;
-		} else if (OI.shoot() == true) {
+		} else if (OI.shoot() >= 0.1) {
 			Shooter.shooterShoot(OI.valueShooterSpeed);
 			shooterCycle = 1;
 		} else {
@@ -122,37 +148,40 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		if (OI.harvester() == true) {
-			if (OI.harvesterButtonPressed == false) {
-				Harvester.run();
-				OI.harvesterButtonPressed = true;
+		if (OI.getXboxLeftBumper() == true) {
+			if (OI.harvester() == true) {
+				BallManagement.harvesterForward();
+			} else if (OI.conveyor() == true) {
+				BallManagement.conveyorBackward();
+			} else if (OI.loader() == true) {
+				BallManagement.loaderBackward();
 			}
 		} else {
-			OI.harvesterButtonPressed = true;
+			if (OI.harvester() == true) {
+				BallManagement.harvesterBackward();
+			} else if (OI.conveyor() == true) {
+				BallManagement.conveyorForward();
+			} else if (OI.loader() == true) {
+				BallManagement.loaderForward();
+			}
 		}
 
 		if (OI.cycle() == true) {
 			ColorCycle.colorCycleStart();
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
+		} else if (ColorCycle.colorCycleValue == 3) {
+			ColorCycle.colorCycleStop();
+			OI.onoffColorCycle = false;
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			OI.onoffColorCycle = true;
 		}
-
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Green", detectedColor.green);
-		SmartDashboard.putNumber("Confidence", match.confidence);
-		SmartDashboard.putString("Detected Color", colorString);
-		SmartDashboard.putNumber("Proximity", proximity);
-		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 	}
 
-	@Override
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-
-	}
-
-	// Adds commands to scheduler after leaving vision system control
 	void OICommands() {
 		Scheduler.getInstance().add(new Detector());
 		Scheduler.getInstance().add(new DriveWithJoysticks());
