@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		// CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
 		OI = new OI();
 		GreenLED_ON = false;
@@ -116,27 +117,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
-
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-
-		if ((shooterCycle == 0) == false) {
-			shooterCycle = shooterCycle + 1;
-		} else if (OI.shoot() >= 0.1) {
-			Shooter.shooterShoot(OI.valueShooterSpeed);
-			shooterCycle = 1;
-		} else {
-			Shooter.shooterStop();
-		}
-
-		if (shooterCycle == 10) {
-			Shooter.initiateShot();
-		} else if (shooterCycle == 20) {
-			shooterCycle = 0;
-		}
 
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
@@ -163,6 +148,35 @@ public class Robot extends TimedRobot {
 				BallManagement.conveyorForward();
 			} else if (OI.loader() == true) {
 				BallManagement.loaderForward();
+			}
+		}
+
+		// added shooter code
+		if ((shooterCycle == 0) == false) {
+			shooterCycle = shooterCycle + 1;
+		} else if (OI.shoot() == true) {
+			Shooter.shooterShoot(OI.valueShooterSpeed);
+			shooterCycle = 1;
+			System.out.println("Shooter Initialized");
+		} else {
+			Shooter.shooterStop();
+		}
+
+		if (shooterCycle == 100) {
+			Shooter.initiateShot();
+			System.out.println("Ball fired");
+		} else if (shooterCycle == 200) {
+			shooterCycle = 0;
+			System.out.println("Shooter Stopped");
+		}
+
+		if (OI.changeShooterSpeed() == 1) {
+			if (OI.valueShooterSpeed < 1) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
+			}
+		} else if (OI.changeShooterSpeed() == 2) {
+			if (OI.valueShooterSpeed > 0) {
+				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
 			}
 		}
 
