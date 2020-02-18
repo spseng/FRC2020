@@ -40,8 +40,12 @@ public class OI {
 		}
 	}
 
-	public double shoot() {
-		return xbox.getTriggerAxis(Hand.kRight);
+	public boolean shoot() {
+		if (xbox.getTriggerAxis(Hand.kRight) > 0.1){
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 	public int changeShooterSpeed() {
