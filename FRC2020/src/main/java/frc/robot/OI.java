@@ -14,7 +14,6 @@ public class OI {
 
 	public boolean grabberState = true;
 	public boolean harvesterButtonPressed = false;
-	public boolean onoffColorCycle = true;
 	public double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
@@ -41,7 +40,7 @@ public class OI {
 	}
 
 	public boolean shoot() {
-		if (xbox.getTriggerAxis(Hand.kRight) > 0.1 || xbox.getTriggerAxis(Hand.kRight) < -0.1) {
+		if (xbox.getTriggerAxis(Hand.kRight) > 0.1) {
 			return true;
 		} else {
 			return false;
@@ -69,12 +68,8 @@ public class OI {
 	}
 
 	public boolean cycle() {
-		if (onoffColorCycle == true) {
-			if (xbox.getXButton() == true) {
-				return true;
-			} else {
-				return false;
-			}
+		if (xbox.getXButton() == true) {
+			return true;
 		} else {
 			return false;
 		}

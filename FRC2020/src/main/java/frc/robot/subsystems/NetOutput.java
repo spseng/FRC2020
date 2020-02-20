@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class NetOutput extends Subsystem {
 
 	// set red is true and blue as false
-	public static boolean teamState;
 	int input;
 	NetworkTableInstance net = NetworkTableInstance.getDefault();
 	NetworkTable team_data = net.getTable("team_data");

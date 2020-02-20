@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -15,10 +16,8 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.BallManagement;
 import frc.robot.subsystems.ColorCycle;
-import frc.robot.subsystems.NetOutput;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
-import java.util.concurrent.TimeUnit;
 
 public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
@@ -27,16 +26,20 @@ public class Robot extends TimedRobot {
 
 	public static DriveTrain driveTrain;
 	public static OI OI;
-
+	public static String colorString;
+	
 	boolean Xon = false;
 	boolean GreenLED_ON = false;
-	String teamColor;
 	int shooterCycle = 0;
+	String teamColor;
 
 	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+
+	DriverStation.Alliance blueTeam = Alliance.Blue;
+	DriverStation.Alliance redTeam = Alliance.Red;
 
 	@Override
 	public void robotInit() {
@@ -50,13 +53,17 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
 		RobotMap.colorMatcher.addColorMatch(kRedTarget);
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
-
-		DriverStation.Alliance.valueOf(teamColor);
-		if (teamColor == "Blue") {
+		
+		if (DriverStation.Alliance.valueOf("Blue") == blueTeam) {
 			Scheduler.getInstance().add(new Detector(true));
-		} else if (teamColor == "Red") {
+			teamColor = "Blue";
+		} else if (DriverStation.Alliance.valueOf("Red") == redTeam) {
 			Scheduler.getInstance().add(new Detector(false));
+			teamColor = "Red";
+		} else {
+			teamColor = "Invalid";
 		}
+
 		SmartDashboard.putString("Team Color", teamColor);
 	}
 
@@ -92,7 +99,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// periodically gets the detected color from Sensor
 		Color detectedColor = RobotMap.colorSensor.getColor();
-		String colorString;
 		ColorMatchResult match = RobotMap.colorMatcher.matchClosestColor(detectedColor);
 		int proximity = RobotMap.colorSensor.getProximity();
 
@@ -108,15 +114,19 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Green", detectedColor.green);
+		// SmartDashboard.putNumber("Red", detectedColor.red);
+		// SmartDashboard.putNumber("Blue", detectedColor.blue);
+		// SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
 		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
+		
+		if (ColorCycle.colorCycleValue == 3) {
+			ColorCycle.colorCycleStop();
+		}
 	}
 
 	@Override
@@ -151,7 +161,6 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		// added shooter code
 		if ((shooterCycle == 0) == false) {
 			shooterCycle = shooterCycle + 1;
 		} else if (OI.shoot() == true) {
@@ -184,16 +193,7 @@ public class Robot extends TimedRobot {
 			ColorCycle.colorCycleStart();
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
-		} else if (ColorCycle.colorCycleValue == 3) {
-			ColorCycle.colorCycleStop();
-			OI.onoffColorCycle = false;
-			try {
-				TimeUnit.SECONDS.sleep(2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			OI.onoffColorCycle = true;
-		}
+		}  
 	}
 
 	void OICommands() {
