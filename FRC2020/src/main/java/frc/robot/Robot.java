@@ -145,18 +145,39 @@ public class Robot extends TimedRobot {
 		if (OI.getXboxLeftBumper() == true) {
 			if (OI.harvester() == true) {
 				BallManagement.harvesterForward();
-			} else if (OI.conveyor() == true) {
-				BallManagement.conveyorBackward();
-			} else if (OI.loader() == true) {
-				BallManagement.loaderBackward();
+			} else {
+				BallManagement.harvesterStop();
 			}
+			
+			if (OI.conveyor() == true) {
+				BallManagement.conveyorBackward();
+			} else {
+				BallManagement.conveyorStop();
+			} 
+			
+			if (OI.loader() == true) {
+				BallManagement.loaderBackward();
+			} else {
+				BallManagement.loaderStop();
+			}
+
 		} else {
 			if (OI.harvester() == true) {
 				BallManagement.harvesterBackward();
-			} else if (OI.conveyor() == true) {
+			} else {
+				BallManagement.harvesterStop();
+			}
+			
+			if (OI.conveyor() == true) {
 				BallManagement.conveyorForward();
-			} else if (OI.loader() == true) {
+			} else {
+				BallManagement.conveyorStop();
+			}
+			
+			if (OI.loader() == true) {
 				BallManagement.loaderForward();
+			} else {
+				BallManagement.loaderStop();
 			}
 		}
 

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
@@ -20,9 +20,12 @@ public class RobotMap {
 	public static WPI_TalonSRX Harvester = new WPI_TalonSRX(6);
 
 	// TalonSR motors setup
-	public static Talon Conveyor = new Talon(1);
-	public static Talon Spinner = new Talon(2);
-	public static Talon Loader = new Talon(3);
+	public static VictorSP Conveyor = new VictorSP(1);
+	public static VictorSP Spinner = new VictorSP(2);
+	public static VictorSP Loader = new VictorSP(3);
+
+	
+
 
 	// Digital Input setup
 	public static DigitalInput topLimitSwitch = new DigitalInput(0);

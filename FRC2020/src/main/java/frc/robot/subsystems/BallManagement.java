@@ -10,11 +10,15 @@ public class BallManagement extends Subsystem {
     }
 
     public static void harvesterForward() {
-        RobotMap.Harvester.set(1);
+        RobotMap.Harvester.set(0.4);
     }
 
     public static void harvesterBackward() {
-        RobotMap.Harvester.set(-1);
+        RobotMap.Harvester.set(-0.4);
+    }
+
+    public static void harvesterStop() {
+        RobotMap.Harvester.set(0);
     }
 
     public static void loaderForward() {
@@ -22,7 +26,11 @@ public class BallManagement extends Subsystem {
     }
 
     public static void loaderBackward() {
-        RobotMap.Loader.set(-1);
+        RobotMap.Loader.set(-1.0);
+    }
+
+    public static void loaderStop() {
+        RobotMap.Loader.set(0);
     }
 
     public static void conveyorForward() {
@@ -31,5 +39,9 @@ public class BallManagement extends Subsystem {
 
     public static void conveyorBackward() {
         RobotMap.Conveyor.set(-1);
+    }
+
+    public static void conveyorStop() {
+        RobotMap.Conveyor.set(0);
     }
 }
