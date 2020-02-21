@@ -1,8 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.util.Color;
+import com.revrobotics.ColorMatchResult;
 import frc.robot.RobotMap;
-import frc.robot.Robot;
 
 public class ColorCycle extends Subsystem {
     public static double colorCycleValue = 0;
@@ -17,8 +18,9 @@ public class ColorCycle extends Subsystem {
 
         while (colorCycleValue < 3) {
 
-            String firstColor = Robot.colorString;
-            while (Robot.colorString == firstColor) {
+            Color firstColor = RobotMap.colorSensor.getColor();
+            ColorMatchResult matched = RobotMap.colorMatcher.matchClosestColor(firstColor);
+            while (RobotMap.colorMatcher.matchClosestColor(RobotMap.colorSensor.getColor()) == matched) {
                 // nothing
             }
 

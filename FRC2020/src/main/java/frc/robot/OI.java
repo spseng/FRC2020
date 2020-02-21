@@ -25,7 +25,7 @@ public class OI {
 
 	public double getLeftSpeed() {
 		if (leftStick.getY() > 0.1 || leftStick.getY() < -0.1) {
-			return leftStick.getY();
+			return Math.pow(leftStick.getY(), 3);
 		} else {
 			return 0.0;
 		}
@@ -33,7 +33,7 @@ public class OI {
 
 	public double getRightSpeed() {
 		if (rightStick.getY() > 0.1 || rightStick.getY() < -0.1) {
-			return -1.0 * rightStick.getY();
+			return -1.0 * Math.pow(rightStick.getY(), 3);
 		} else {
 			return 0.0;
 		}
@@ -76,18 +76,34 @@ public class OI {
 	}
 
 	public boolean getXboxLeftBumper() {
-		return xbox.getBumper(Hand.kLeft);
+		if (xbox.getBumper(Hand.kLeft) == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean harvester() {
-		return xbox.getYButton();
+		if (xbox.getYButton() == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean conveyor() {
-		return xbox.getBButton();
+		if (xbox.getBButton() == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean loader() {
-		return xbox.getAButton();
+		if (xbox.getAButton() == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
