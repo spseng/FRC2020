@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
 		RobotMap.colorMatcher.addColorMatch(kRedTarget);
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
-		/*
+		
 		if (DriverStation.Alliance.valueOf("Blue") == blueTeam) {
 			Scheduler.getInstance().add(new Detector(true));
 			teamColor = "Blue";
@@ -63,9 +63,7 @@ public class Robot extends TimedRobot {
 		} else {
 			teamColor = "Invalid";
 		}
-
 		SmartDashboard.putString("Team Color", teamColor);
-		*/
 	}
 
 	@Override

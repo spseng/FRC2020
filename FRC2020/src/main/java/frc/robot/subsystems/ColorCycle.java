@@ -16,17 +16,14 @@ public class ColorCycle extends Subsystem {
     public static void colorCycleStart() {
         RobotMap.Spinner.set(1);
 
-        while (colorCycleValue < 3) {
-
-            Color firstColor = RobotMap.colorSensor.getColor();
-            ColorMatchResult matched = RobotMap.colorMatcher.matchClosestColor(firstColor);
-            while (RobotMap.colorMatcher.matchClosestColor(RobotMap.colorSensor.getColor()) == matched) {
-                // nothing
-            }
-
-            colorCycleValue = colorCycleValue + 0.125;
-            colorsPassedValue = colorsPassedValue + 1;
+        Color firstColor = RobotMap.colorSensor.getColor();
+        ColorMatchResult matched = RobotMap.colorMatcher.matchClosestColor(firstColor);
+        while (RobotMap.colorMatcher.matchClosestColor(RobotMap.colorSensor.getColor()) == matched) {
+            // nothing
         }
+
+        colorCycleValue = colorCycleValue + 0.125;
+        colorsPassedValue = colorsPassedValue + 1;
     }
 
     public static void colorCycleStop() {

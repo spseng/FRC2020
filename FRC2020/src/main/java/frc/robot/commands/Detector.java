@@ -27,31 +27,31 @@ public class Detector extends Command {
 	}
 
 	protected void execute() {
+		if (false) {
+			int script_choice = get_script_choice();
+			obj.update_choice(script_choice);
 
-		int script_choice = get_script_choice();
-		obj.update_choice(script_choice);
+			// Store networktables output
+			double[] output = new double[2];
+			output = obj.get_output_of_selected_action();
 
-		// Store networktables output
-		double[] output = new double[2];
-		output = obj.get_output_of_selected_action();
+			// If stop signal is received, end command
+			if (output[0] == 0) {
+					//As of now, if theres no script we just dont control motors
 
-		// If stop signal is received, end command
-		if (output[0] == 0) {
-			//As of now, if theres no script we just dont control motors
+			} else {
+				// PID
+				double[] speeds = PID(output[0]);
 
-		} else {
-			// PID
-			double[] speeds = PID(output[0]);
+				// If ball is closer than threshold, stop
+				if (output[2] < setpointWidth && error < 100) {
+					speeds[0] = 0;
+					speeds[1] = 0;
+				}
 
-			// If ball is closer than threshold, stop
-			if (output[2] < setpointWidth && error < 100) {
-				speeds[0] = 0;
-				speeds[1] = 0;
+				// Actuate motors
+				Robot.driveTrain.tankDrive(speeds[0], speeds[1]); // Turns each motor according to the error.
 			}
-
-			// Actuate motors
-			Robot.driveTrain.tankDrive(speeds[0], speeds[1]); // Turns each motor according to the error.
-
 		}
 	}
 
