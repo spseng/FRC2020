@@ -31,8 +31,8 @@ public class Robot extends TimedRobot {
 	
 	boolean Xon = false;
 	boolean GreenLED_ON = false;
-	int shooterCycle = 0;
 	String teamColor;
+	int shooterCycle;
 
 	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -146,15 +146,6 @@ public class Robot extends TimedRobot {
 			winch.winchStop();
 		}
 		*/
-		if (OI.changeShooterSpeed() == 1) {
-			if (OI.valueShooterSpeed < 1) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
-			}
-		} else if (OI.changeShooterSpeed() == 2) {
-			if (OI.valueShooterSpeed > 0) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
-			}
-		}
 
 		if (OI.getXboxLeftBumper() == true) {
 			if (OI.harvester() == true) {
@@ -193,29 +184,21 @@ public class Robot extends TimedRobot {
 			} else {
 				BallManagement.loaderStop();
 			}
-		}
+		} 
 
-		if (shoot() == true)		
-		for shooterCycle
-		/*
-		if ((shooterCycle == 0) == false) {
-			shooterCycle = shooterCycle + 1;
-		} else if (OI.shoot() == true) {
-			Shooter.shooterShoot(OI.valueShooterSpeed);
-			shooterCycle = 1;
-			System.out.println("Shooter Initialized");
+		if (OI.shoot() == true) {		
+			for (shooterCycle = 0; shooterCycle < 500; shooterCycle++) {
+				Shooter.initiateShot(OI.valueShooterSpeed);
+				System.out.println("Ramping up shooter");
+				if (shooterCycle >= 100) {
+					Shooter.loadingShot();
+					System.out.println("loading ball for shooting");
+				}
+			}
 		} else {
 			Shooter.shooterStop();
 		}
 
-		if (shooterCycle == 100) {
-			Shooter.initiateShot();
-			System.out.println("Ball fired");
-		} else if (shooterCycle == 200) {
-			shooterCycle = 0;
-			System.out.println("Shooter Stopped");
-		} 
-		*/
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
 				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
