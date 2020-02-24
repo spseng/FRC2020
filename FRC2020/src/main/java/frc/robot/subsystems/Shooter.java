@@ -16,9 +16,7 @@ public class Shooter extends Subsystem{
     }
 
     public static void shooterStop() {
-        RobotMap.Conveyor.set(0);
         RobotMap.Shooter.set(0);
-        RobotMap.Loader.set(0);
     }
 
     //initiates shot, moves conveyorbelt and flap to load ball into shooter system

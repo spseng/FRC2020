@@ -14,6 +14,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.Detector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.BallManagement;
 import frc.robot.subsystems.ColorCycle;
 import com.revrobotics.ColorMatch;
@@ -113,9 +114,9 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		// SmartDashboard.putNumber("Red", detectedColor.red);
-		// SmartDashboard.putNumber("Blue", detectedColor.blue);
-		// SmartDashboard.putNumber("Green", detectedColor.green);
+		SmartDashboard.putNumber("Red", detectedColor.red);
+		SmartDashboard.putNumber("Blue", detectedColor.blue);
+		SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
@@ -131,7 +132,20 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-
+		/*
+			//Winch
+		if (OI.winchup() == true) 
+		{
+			winch.winchup();
+		} else if (OI.winchdown() == true) 
+		{
+			winch.winchdown();
+		} 
+		else 
+		{
+			winch.winchStop();
+		}
+		*/
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
 				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
@@ -156,7 +170,7 @@ public class Robot extends TimedRobot {
 			} 
 			
 			if (OI.loader() == true) {
-				BallManagement.loaderBackward();
+				BallManagement.loaderForward();
 			} else {
 				BallManagement.loaderStop();
 			}
@@ -175,12 +189,15 @@ public class Robot extends TimedRobot {
 			}
 			
 			if (OI.loader() == true) {
-				BallManagement.loaderForward();
+				BallManagement.loaderBackward();
 			} else {
 				BallManagement.loaderStop();
 			}
 		}
 
+		if (shoot() == true)		
+		for shooterCycle
+		/*
 		if ((shooterCycle == 0) == false) {
 			shooterCycle = shooterCycle + 1;
 		} else if (OI.shoot() == true) {
@@ -197,8 +214,8 @@ public class Robot extends TimedRobot {
 		} else if (shooterCycle == 200) {
 			shooterCycle = 0;
 			System.out.println("Shooter Stopped");
-		}
-
+		} 
+		*/
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
 				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;

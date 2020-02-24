@@ -23,6 +23,21 @@ public class OI {
 	Button rightbutton3 = new JoystickButton(rightStick, 3), rightbutton4 = new JoystickButton(rightStick, 4);
 	Button rightbutton5 = new JoystickButton(rightStick, 5), rightbutton6 = new JoystickButton(rightStick, 6);
 
+	/*
+	OI Interface:
+	Drive Train: leftjoystick.Yaxis - left motor; rightjoystick.Yaxis - right motor
+		Shooter: xbox right trigger starts the shooter
+			:to make shooter go faster use D-Pad up button
+			:to make shooter go slower use D-Pad down button
+		Harvester: to run, hold down xbox Y button (when shooter running)
+		Loader: to run, hold down xbox B button (when shooter running)
+		Conveyor: to run, hold down xbox A button
+		Making motors run backwards: 
+			Harvester: Holding top left bumper, and y reverses the harvester motor
+			Loader: holding top left bumper, and a reverses the loader motor
+			Conveyor: holding top left bumper, and b reverses the conveyor motor
+	*/
+
 	public double getLeftSpeed() {
 		if (leftStick.getY() > 0.1 || leftStick.getY() < -0.1) {
 			return Math.pow(leftStick.getY(), 3);
@@ -36,6 +51,22 @@ public class OI {
 			return -1.0 * Math.pow(rightStick.getY(), 3);
 		} else {
 			return 0.0;
+		}
+	}
+
+	public boolean winchup() {
+		if (leftStick.getRawButtonPressed(2)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean winchdown() {
+		if (rightStick.getRawButtonPressed(2)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -90,7 +121,7 @@ public class OI {
 			return false;
 		}
 	}
-
+	
 	public boolean conveyor() {
 		if (xbox.getBButton() == true) {
 			return true;
@@ -98,7 +129,7 @@ public class OI {
 			return false;
 		}
 	}
-
+	
 	public boolean loader() {
 		if (xbox.getAButton() == true) {
 			return true;

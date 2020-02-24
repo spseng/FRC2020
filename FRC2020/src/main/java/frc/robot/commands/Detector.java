@@ -28,8 +28,9 @@ public class Detector extends Command {
 
 	protected void execute() {
 		int script_choice=0;
-		if (false) {
-			script_choice = get_script_choice();
+		script_choice = get_script_choice();
+
+		if (script_choice>0 && script_choice<3) {
 			obj.update_choice(script_choice);
 
 			// Store networktables output
