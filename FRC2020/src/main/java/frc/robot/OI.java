@@ -39,18 +39,22 @@ public class OI {
 	*/
 
 	public double getLeftSpeed() {
-		System.out.println("getleftspeed.getY()=" + leftStick.getY() + " Math.pow(gety),3)=" + Math.pow(leftStick.getY(), 3));
-		if (leftStick.getY() > 0.1 || leftStick.getY() < -0.1) {
-			return Math.pow(leftStick.getY(), 3);
+		// System.out.println("getleftspeed.getY()=" + leftStick.getY() + " Math.pow(gety),3)=" + Math.pow(leftStick.getY(), 3));
+		if (leftStick.getY() > 0.01) {
+			return Math.pow(leftStick.getY(), 3) - 0.01;
+		} else if (leftStick.getY() <= -0.01) {
+			return Math.pow(leftStick.getY(), 3) + 0.01;
 		} else {
 			return 0.0;
 		}
 	}
 
 	public double getRightSpeed() {
-		System.out.println("getrightspeed.getY()=" + rightStick.getY() + "Math.pow(rightstickvalue)=" + Math.pow(rightStick.getY(), 3));
-		if (rightStick.getY() > 0.1 || rightStick.getY() < -0.1) {
-			return -1.0 * Math.pow(rightStick.getY(), 3);
+		// System.out.println("getrightspeed.getY()=" + rightStick.getY() + "Math.pow(rightstickvalue)=" + Math.pow(rightStick.getY(), 3));
+		if (rightStick.getY() > 0.01) {
+			return -1.0 * Math.pow(rightStick.getY(), 3) + 0.01;
+		} else if (rightStick.getY() < -0.01) {
+			return -1.0 * Math.pow(rightStick.getY(), 3) - 0.01;
 		} else {
 			return 0.0;
 		}

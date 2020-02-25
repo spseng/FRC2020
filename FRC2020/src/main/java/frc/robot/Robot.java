@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
 	public static OI OI;
 	public static String colorString;
 	
+	double shooterVel;
 	boolean Xon = false;
 	boolean GreenLED_ON = false;
 	String teamColor;
@@ -114,15 +115,16 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Green", detectedColor.green);
+		// SmartDashboard.putNumber("Red", detectedColor.red);
+		// SmartDashboard.putNumber("Blue", detectedColor.blue);
+		// SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
 		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
+		SmartDashboard.putNumber("Shooter Velocity", -1 * shooterVel);
 		
 		if (ColorCycle.colorCycleValue == 3) {
 			ColorCycle.colorCycleStop();
@@ -149,7 +151,7 @@ public class Robot extends TimedRobot {
 
 		if (OI.getXboxLeftBumper() == true) {
 			if (OI.harvester() == true) {
-				BallManagement.harvesterForward();
+				BallManagement.harvesterBackward();
 			} else {
 				BallManagement.harvesterStop();
 			}
@@ -168,7 +170,7 @@ public class Robot extends TimedRobot {
 
 		} else {
 			if (OI.harvester() == true) {
-				BallManagement.harvesterBackward();
+				BallManagement.harvesterForward();
 			} else {
 				BallManagement.harvesterStop();
 			}
@@ -190,6 +192,7 @@ public class Robot extends TimedRobot {
 			for (shooterCycle = 0; shooterCycle < 500; shooterCycle++) {
 				Shooter.initiateShot(OI.valueShooterSpeed);
 				System.out.println("Ramping up shooter");
+				shooterVel = RobotMap.CANCoder.getVelocity();
 				if (shooterCycle >= 100) {
 					Shooter.loadingShot();
 					System.out.println("loading ball for shooting");
@@ -197,6 +200,7 @@ public class Robot extends TimedRobot {
 			}
 		} else {
 			Shooter.shooterStop();
+			shooterVel = RobotMap.CANCoder.getVelocity();
 		}
 
 		if (OI.changeShooterSpeed() == 1) {
