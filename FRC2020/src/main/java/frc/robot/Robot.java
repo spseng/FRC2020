@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static OI OI;
 	public static String colorString;
-	
+
 	double shooterVel;
 	boolean Xon = false;
 	boolean GreenLED_ON = false;
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
 		RobotMap.colorMatcher.addColorMatch(kRedTarget);
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
-		
+
 		if (DriverStation.Alliance.valueOf("Blue") == blueTeam) {
 			Scheduler.getInstance().add(new Detector(true));
 			teamColor = "Blue";
@@ -125,7 +125,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
 		SmartDashboard.putNumber("Shooter Velocity", -1 * shooterVel);
-		
+
 		if (ColorCycle.colorCycleValue == 3) {
 			ColorCycle.colorCycleStop();
 		}
@@ -134,20 +134,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		/*
-			//Winch
-		if (OI.winchup() == true) 
-		{
-			winch.winchup();
-		} else if (OI.winchdown() == true) 
-		{
-			winch.winchdown();
-		} 
-		else 
-		{
-			winch.winchStop();
-		}
-		*/
 
 		if (OI.getXboxLeftBumper() == true) {
 			if (OI.harvester() == true) {
@@ -155,13 +141,13 @@ public class Robot extends TimedRobot {
 			} else {
 				BallManagement.harvesterStop();
 			}
-			
+
 			if (OI.conveyor() == true) {
 				BallManagement.conveyorBackward();
 			} else {
 				BallManagement.conveyorStop();
-			} 
-			
+			}
+
 			if (OI.loader() == true) {
 				BallManagement.loaderForward();
 			} else {
@@ -174,21 +160,21 @@ public class Robot extends TimedRobot {
 			} else {
 				BallManagement.harvesterStop();
 			}
-			
+
 			if (OI.conveyor() == true) {
 				BallManagement.conveyorForward();
 			} else {
 				BallManagement.conveyorStop();
 			}
-			
+
 			if (OI.loader() == true) {
 				BallManagement.loaderBackward();
 			} else {
 				BallManagement.loaderStop();
 			}
-		} 
+		}
 
-		if (OI.shoot() == true) {		
+		if (OI.shoot() == true) {
 			for (shooterCycle = 0; shooterCycle < 500; shooterCycle++) {
 				Shooter.initiateShot(OI.valueShooterSpeed);
 				System.out.println("Ramping up shooter");
@@ -217,11 +203,27 @@ public class Robot extends TimedRobot {
 			ColorCycle.colorCycleStart();
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
-		}  
+		}
+
+		if (OI.winchState == 1) {
+			if (RobotMap.topLimitSwitch.get() != true) {
+				Winch.winchUp();
+			} else if (RobotMap.topLimitSwitch.get() == true) {
+				Winch.winchStop();
+			}
+		} else if (OI.winchState == -1) {
+			if (RobotMap.bottomLimitSwitch.get() != true) {
+				Winch.winchDown();
+			} else if (RobotMap.bottomLimitSwitch.get() == true) {
+				Winch.winchStop();
+			}
+		} else {
+			Winch.winchStop();
+		}
 	}
 
 	void OICommands() {
-		//Scheduler.getInstance().add(new Detector());
+		// Scheduler.getInstance().add(new Detector());
 		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 

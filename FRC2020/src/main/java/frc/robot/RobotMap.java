@@ -36,6 +36,7 @@ public class RobotMap {
 
 	// Digital Input setup
 	public static DigitalInput topLimitSwitch = new DigitalInput(0);
+	public static DigitalInput bottomLimitSwitch = new DigitalInput(1);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);

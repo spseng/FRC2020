@@ -12,8 +12,7 @@ public class OI {
 	Joystick rightStick = RobotMap.rightJoystick;
 	public XboxController xbox = RobotMap.xboxController;
 
-	public boolean grabberState = true;
-	public boolean harvesterButtonPressed = false;
+	public int winchState = 0;
 	public double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
@@ -24,22 +23,20 @@ public class OI {
 	Button rightbutton5 = new JoystickButton(rightStick, 5), rightbutton6 = new JoystickButton(rightStick, 6);
 
 	/*
-	OI Interface:
-	Drive Train: leftjoystick.Yaxis - left motor; rightjoystick.Yaxis - right motor
-		Shooter: xbox right trigger starts the shooter
-			:to make shooter go faster use D-Pad up button
-			:to make shooter go slower use D-Pad down button
-		Harvester: to run, hold down xbox Y button (when shooter running)
-		Loader: to run, hold down xbox B button (when shooter running)
-		Conveyor: to run, hold down xbox A button
-		Making motors run backwards: 
-			Harvester: Holding top left bumper, and y reverses the harvester motor
-			Loader: holding top left bumper, and a reverses the loader motor
-			Conveyor: holding top left bumper, and b reverses the conveyor motor
-	*/
+	 * OI Interface: Drive Train: leftjoystick.Yaxis - left motor;
+	 * rightjoystick.Yaxis - right motor Shooter: xbox right trigger starts the
+	 * shooter :to make shooter go faster use D-Pad up button :to make shooter go
+	 * slower use D-Pad down button Harvester: to run, hold down xbox Y button (when
+	 * shooter running) Loader: to run, hold down xbox B button (when shooter
+	 * running) Conveyor: to run, hold down xbox A button Making motors run
+	 * backwards: Harvester: Holding top left bumper, and y reverses the harvester
+	 * motor Loader: holding top left bumper, and a reverses the loader motor
+	 * Conveyor: holding top left bumper, and b reverses the conveyor motor
+	 */
 
 	public double getLeftSpeed() {
-		// System.out.println("getleftspeed.getY()=" + leftStick.getY() + " Math.pow(gety),3)=" + Math.pow(leftStick.getY(), 3));
+		// System.out.println("getleftspeed.getY()=" + leftStick.getY() + "
+		// Math.pow(gety),3)=" + Math.pow(leftStick.getY(), 3));
 		if (leftStick.getY() > 0.01) {
 			return Math.pow(leftStick.getY(), 3) - 0.01;
 		} else if (leftStick.getY() <= -0.01) {
@@ -50,29 +47,14 @@ public class OI {
 	}
 
 	public double getRightSpeed() {
-		// System.out.println("getrightspeed.getY()=" + rightStick.getY() + "Math.pow(rightstickvalue)=" + Math.pow(rightStick.getY(), 3));
+		// System.out.println("getrightspeed.getY()=" + rightStick.getY() +
+		// "Math.pow(rightstickvalue)=" + Math.pow(rightStick.getY(), 3));
 		if (rightStick.getY() > 0.01) {
 			return -1.0 * Math.pow(rightStick.getY(), 3) + 0.01;
 		} else if (rightStick.getY() < -0.01) {
 			return -1.0 * Math.pow(rightStick.getY(), 3) - 0.01;
 		} else {
 			return 0.0;
-		}
-	}
-
-	public boolean winchup() {
-		if (leftStick.getRawButtonPressed(2)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean winchdown() {
-		if (rightStick.getRawButtonPressed(2)) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -94,16 +76,10 @@ public class OI {
 		}
 	}
 
-	public boolean grabberState() {
-		if (grabberState == false) {
-			grabberState = true;
-			return true;
-		} else {
-			grabberState = false;
-			return false;
-		}
-	}
-
+	/*
+	 * public boolean grabberState() { if (grabberState == false) { grabberState =
+	 * true; return true; } else { grabberState = false; return false; } }
+	 */
 	public boolean cycle() {
 		if (xbox.getXButton() == true) {
 			return true;
@@ -127,7 +103,7 @@ public class OI {
 			return false;
 		}
 	}
-	
+
 	public boolean conveyor() {
 		if (xbox.getBButton() == true) {
 			return true;
@@ -135,12 +111,22 @@ public class OI {
 			return false;
 		}
 	}
-	
+
 	public boolean loader() {
 		if (xbox.getAButton() == true) {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public void winch() {
+		if (xbox.getTriggerAxis(Hand.kLeft) >= 0.01) {
+			winchState = 1;
+		} else if (xbox.getTriggerAxis(Hand.kLeft) <= -0.01) {
+			winchState = -1;
+		} else {
+			winchState = 0;
 		}
 	}
 }
