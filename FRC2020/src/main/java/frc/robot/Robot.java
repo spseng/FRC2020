@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.MoveWinch;
 import frc.robot.commands.Detector;
 import frc.robot.commands.Shootball;
 import frc.robot.subsystems.DriveTrain;
@@ -22,13 +23,14 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 
 public class Robot extends TimedRobot {
-	
+
 	XboxController xbox = RobotMap.xboxController;
 	Joystick leftstick = RobotMap.leftJoystick;
 	Joystick rightstick = RobotMap.rightJoystick;
 
 	public static DriveTrain driveTrain;
 	public static Shooter shooter;
+	public static Winch winch;
 	public static OI OI;
 	public static String colorString;
 	
@@ -96,6 +98,7 @@ public class Robot extends TimedRobot {
 		RobotMap.GreenLED.set(Relay.Value.kReverse);
 
 		Scheduler.getInstance().add(new Shootball());
+		Scheduler.getInstance().add(new MoveWinch());
 
 		// Init OI
 		OICommands();
@@ -195,22 +198,6 @@ public class Robot extends TimedRobot {
 			ColorCycle.colorCycleStart();
 		} else if (OI.cycle() == false) {
 			ColorCycle.colorCycleStop();
-		}
-
-		if (OI.winchState == 1) {
-			if (RobotMap.topLimitSwitch.get() != true) {
-				Winch.winchUp();
-			} else if (RobotMap.topLimitSwitch.get() == true) {
-				Winch.winchStop();
-			}
-		} else if (OI.winchState == -1) {
-			if (RobotMap.bottomLimitSwitch.get() != true) {
-				Winch.winchDown();
-			} else if (RobotMap.bottomLimitSwitch.get() == true) {
-				Winch.winchStop();
-			}
-		} else {
-			Winch.winchStop();
 		}
 	}
 

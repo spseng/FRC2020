@@ -22,7 +22,11 @@ public class Winch extends Subsystem {
   
     }
 
+    public static void setSpeed(double speed) {
+        RobotMap.Winch.set(speed/2);
+    }
+
     public static void winchStop() {
-        RobotMap.Winch.set(0.0);
+        RobotMap.Winch.stopMotor();
     }
 }

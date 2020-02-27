@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class OI {
@@ -12,7 +13,6 @@ public class OI {
 	Joystick rightStick = RobotMap.rightJoystick;
 	public XboxController xbox = RobotMap.xboxController;
 
-	public int winchState = 0;
 	public double valueShooterSpeed = 0.5;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
@@ -120,13 +120,13 @@ public class OI {
 		}
 	}
 
-	public void winch() {
-		if (xbox.getTriggerAxis(Hand.kLeft) >= 0.01) {
-			winchState = 1;
-		} else if (xbox.getTriggerAxis(Hand.kLeft) <= -0.01) {
-			winchState = -1;
-		} else {
-			winchState = 0;
+	public double winch() {
+		double pos = xbox.getY(Hand.kLeft);
+		SmartDashboard.putNumber("POS", pos);
+		if (pos >= 0.01 || pos <= -0.01) {
+			return pos;
 		}
+		
+		return 0.0;
 	}
 }
