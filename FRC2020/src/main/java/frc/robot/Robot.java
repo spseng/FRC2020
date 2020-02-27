@@ -150,10 +150,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Bottom Limit Switch", RobotMap.bottomLimitSwitch.get() ? 1:0);
 		SmartDashboard.putNumber("Distance sensor value(in)", RobotMap.distanceSensor.getValue() * 0.125);
 		SmartDashboard.putNumber("Encoder velocity(rpm)", RobotMap.CANCoder.getVelocity() / -360.0);
-
-		if (ColorCycle.colorCycleValue == 3) {
-			ColorCycle.colorCycleStop();
-		}
 	}
 
 	@Override

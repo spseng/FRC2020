@@ -18,6 +18,10 @@ public class ColorCycleController extends Command {
 			ColorCycle.colorCycleStart();
 		} else if (oi.cycle() == false) {
 			ColorCycle.colorCycleStop();
+        }
+        
+		if (ColorCycle.colorCycleValue == 3) {
+			end();
 		}
     }
 

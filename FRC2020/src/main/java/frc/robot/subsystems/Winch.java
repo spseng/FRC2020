@@ -9,19 +9,6 @@ public class Winch extends Subsystem {
         // Set the default command for a subsystem here.
     }
 
-    // winch up
-    public static void winchUp() {
-        RobotMap.Winch.set(1.0);
-        System.out.println("winchup");
-    }
-
-    // winch down
-    public static void winchDown() {
-        RobotMap.Winch.set(-1.0);
-        System.out.println("winchdown");
-  
-    }
-
     public static void setSpeed(double speed) {
         RobotMap.Winch.set(speed/2);
     }
