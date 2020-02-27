@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.Detector;
+import frc.robot.commands.Shootball;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Winch;
@@ -26,8 +27,10 @@ public class Robot extends TimedRobot {
 	Joystick rightstick = RobotMap.rightJoystick;
 
 	public static DriveTrain driveTrain;
+	public static Shooter shooter;
 	public static OI OI;
 	public static String colorString;
+	
 	
 	double shooterVel;
 	boolean Xon = false;
@@ -92,6 +95,8 @@ public class Robot extends TimedRobot {
 		RobotMap.GreenLED.set(Relay.Value.kOn);
 		RobotMap.GreenLED.set(Relay.Value.kReverse);
 
+		Scheduler.getInstance().add(new Shootball());
+
 		// Init OI
 		OICommands();
 	}
@@ -125,6 +130,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
 		SmartDashboard.putNumber("Shooter Velocity", -1 * shooterVel);
+		SmartDashboard.putNumber("Limit switch", RobotMap.topLimitSwitch.get() ? 1:0); // converts boolean to int
 		
 		if (ColorCycle.colorCycleValue == 3) {
 			ColorCycle.colorCycleStop();
@@ -134,20 +140,20 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		/*
+		
 			//Winch
-		if (OI.winchup() == true) 
-		{
-			winch.winchup();
-		} else if (OI.winchdown() == true) 
-		{
-			winch.winchdown();
-		} 
-		else 
-		{
-			winch.winchStop();
-		}
-		*/
+		// if (OI.winchup() == true) 
+		// {
+		// 	Winch.winchup();
+		// } else if (OI.winchdown() == true) 
+		// {
+		// 	Winch.winchdown();
+		// } 
+		// else 
+		// {
+		// 	Winch.winchStop();
+		// }
+		
 
 		if (OI.getXboxLeftBumper() == true) {
 			if (OI.harvester() == true) {
@@ -188,20 +194,6 @@ public class Robot extends TimedRobot {
 			}
 		} 
 
-		if (OI.shoot() == true) {		
-			for (shooterCycle = 0; shooterCycle < 500; shooterCycle++) {
-				Shooter.initiateShot(OI.valueShooterSpeed);
-				System.out.println("Ramping up shooter");
-				shooterVel = RobotMap.CANCoder.getVelocity();
-				if (shooterCycle >= 100) {
-					Shooter.loadingShot();
-					System.out.println("loading ball for shooting");
-				}
-			}
-		} else {
-			Shooter.shooterStop();
-			shooterVel = RobotMap.CANCoder.getVelocity();
-		}
 
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
