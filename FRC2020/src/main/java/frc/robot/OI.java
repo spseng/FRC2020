@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class OI {
@@ -35,8 +34,6 @@ public class OI {
 	 */
 
 	public double getLeftSpeed() {
-		// System.out.println("getleftspeed.getY()=" + leftStick.getY() + "
-		// Math.pow(gety),3)=" + Math.pow(leftStick.getY(), 3));
 		if (leftStick.getY() > 0.01) {
 			return 0.5 * Math.pow(leftStick.getY(), 3) - 0.01;
 		} else if (leftStick.getY() <= -0.01) {
@@ -47,8 +44,6 @@ public class OI {
 	}
 
 	public double getRightSpeed() {
-		// System.out.println("getrightspeed.getY()=" + rightStick.getY() +
-		// "Math.pow(rightstickvalue)=" + Math.pow(rightStick.getY(), 3));
 		if (rightStick.getY() > 0.01) {
 			return 0.5 * -1.0 * Math.pow(rightStick.getY(), 3) + 0.01;
 		} else if (rightStick.getY() < -0.01) {
@@ -76,10 +71,6 @@ public class OI {
 		}
 	}
 
-	/*
-	 * public boolean grabberState() { if (grabberState == false) { grabberState =
-	 * true; return true; } else { grabberState = false; return false; } }
-	 */
 	public boolean cycle() {
 		if (xbox.getXButton() == true) {
 			return true;
@@ -122,7 +113,6 @@ public class OI {
 
 	public double winch() {
 		double pos = xbox.getY(Hand.kLeft);
-		SmartDashboard.putNumber("POS", pos);
 		if (pos >= 0.01 || pos <= -0.01) {
 			return pos;
 		}

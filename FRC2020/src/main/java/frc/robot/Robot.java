@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer; 
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.MoveWinch;
 import frc.robot.commands.Detector;
@@ -33,8 +34,8 @@ public class Robot extends TimedRobot {
 	public static Winch winch;
 	public static OI OI;
 	public static String colorString;
+	public Timer timer = new Timer(); 
 	
-	double shooterVel;
 	boolean Xon = false;
 	boolean GreenLED_ON = false;
 	String teamColor;
@@ -84,10 +85,26 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		timer.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		boolean drive = true;
+		double currentDistance = RobotMap.distanceSensor.getValue() * 0.125;
+
+		if (currentDistance < 12){
+			drive = false;
+		}
+
+		while ((timer.get() < 5)){ // the number represents seconds
+			if (drive){
+				Robot.driveTrain.tankDrive(1.0, 1.0); //change speed
+			}
+		}
+		if (timer.get() > 5){
+			Robot.driveTrain.stop();
+		}
 	}
 
 	@Override
@@ -123,17 +140,12 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		// SmartDashboard.putNumber("Red", detectedColor.red);
-		// SmartDashboard.putNumber("Blue", detectedColor.blue);
-		// SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
 		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
-		SmartDashboard.putNumber("Shooter Velocity", -1 * shooterVel);
-		SmartDashboard.putNumber("Top Limit switch", RobotMap.topLimitSwitch.get() ? 1:0); // converts boolean to int
 		SmartDashboard.putNumber("Bottom Limit Switch", RobotMap.bottomLimitSwitch.get() ? 1:0);
 		SmartDashboard.putNumber("Distance sensor value(in)", RobotMap.distanceSensor.getValue() * 0.125);
 		SmartDashboard.putNumber("Encoder velocity(rpm)", RobotMap.CANCoder.getVelocity() / -360.0);

@@ -36,8 +36,7 @@ public class RobotMap {
 	public static Spark Loader = new Spark(3);
 
 	// Digital Input setup
-	public static DigitalInput topLimitSwitch = new DigitalInput(0);
-	public static DigitalInput bottomLimitSwitch = new DigitalInput(1);
+	public static DigitalInput bottomLimitSwitch = new DigitalInput(0);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);
