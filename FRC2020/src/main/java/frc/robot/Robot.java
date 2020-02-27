@@ -15,10 +15,11 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.MoveWinch;
 import frc.robot.commands.Detector;
 import frc.robot.commands.Shootball;
+import frc.robot.commands.MoveBall;
+import frc.robot.commands.ColorCycleController;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Winch;
-import frc.robot.subsystems.BallManagement;
 import frc.robot.subsystems.ColorCycle;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -116,9 +117,9 @@ public class Robot extends TimedRobot {
 
 		Scheduler.getInstance().add(new Shootball());
 		Scheduler.getInstance().add(new MoveWinch());
-
-		// Init OI
-		OICommands();
+		Scheduler.getInstance().add(new MoveBall());
+		Scheduler.getInstance().add(new ColorCycleController());
+		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 
 	@Override
@@ -159,45 +160,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 
-		if (OI.getXboxLeftBumper() == true) {
-			if (OI.harvester() == true) {
-				BallManagement.harvesterBackward();
-			} else {
-				BallManagement.harvesterStop();
-			}
-
-			if (OI.conveyor() == true) {
-				BallManagement.conveyorBackward();
-			} else {
-				BallManagement.conveyorStop();
-			}
-
-			if (OI.loader() == true) {
-				BallManagement.loaderForward();
-			} else {
-				BallManagement.loaderStop();
-			}
-
-		} else {
-			if (OI.harvester() == true) {
-				BallManagement.harvesterForward();
-			} else {
-				BallManagement.harvesterStop();
-			}
-
-			if (OI.conveyor() == true) {
-				BallManagement.conveyorForward();
-			} else {
-				BallManagement.conveyorStop();
-			}
-
-			if (OI.loader() == true) {
-				BallManagement.loaderBackward();
-			} else {
-				BallManagement.loaderStop();
-			}
-		}
-
 		if (OI.changeShooterSpeed() == 1) {
 			if (OI.valueShooterSpeed < 1) {
 				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
@@ -207,17 +169,6 @@ public class Robot extends TimedRobot {
 				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
 			}
 		}
-
-		if (OI.cycle() == true) {
-			ColorCycle.colorCycleStart();
-		} else if (OI.cycle() == false) {
-			ColorCycle.colorCycleStop();
-		}
-	}
-
-	void OICommands() {
-		// Scheduler.getInstance().add(new Detector());
-		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 
 	@Override

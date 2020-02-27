@@ -20,10 +20,10 @@ public class MoveWinch extends Command {
         double speed = oi.winch();
 
         if (speed > 0.2 && !RobotMap.bottomLimitSwitch.get()) {
-            Winch.setSpeed(1.0);
+            Winch.setSpeed(-1.0);
         }
         else if ( speed < -0.2 ) {
-            Winch.setSpeed(-1.0);
+            Winch.setSpeed(1.0);
         }
         else {
             Winch.winchStop();
