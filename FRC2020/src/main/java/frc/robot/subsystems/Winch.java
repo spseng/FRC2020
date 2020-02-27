@@ -12,11 +12,14 @@ public class Winch extends Subsystem {
     // winch up
     public static void winchUp() {
         RobotMap.Winch.set(1.0);
+        System.out.println("winchup");
     }
 
     // winch down
     public static void winchDown() {
         RobotMap.Winch.set(-1.0);
+        System.out.println("winchdown");
+  
     }
 
     public static void winchStop() {
