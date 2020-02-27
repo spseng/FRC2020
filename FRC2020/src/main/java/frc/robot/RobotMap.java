@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -50,6 +51,9 @@ public class RobotMap {
 
 	// RPM SenSor setup
 	public static CANCoder CANCoder = new CANCoder(7);
+
+	// Distance sensor setup
+	public static AnalogInput distanceSensor = new AnalogInput(0);
 
 	// Relay
 	public static Relay GreenLED = new Relay(3);

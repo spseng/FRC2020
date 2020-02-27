@@ -22,11 +22,8 @@ public class Shootball extends Command {
         if (oi.shoot() == true) {
             for (int shooterCycle = 0; shooterCycle < 200; shooterCycle++) {
                 Shooter.initiateShot(oi.valueShooterSpeed);
-				System.out.println("Ramping up shooter");
-				//double shooterVel = Shooter.getVelocity();
 				if (shooterCycle >= 100) {
 					Shooter.loadingShot();
-					System.out.println("loading ball for shooting");
 				}
 			}
 		} else {

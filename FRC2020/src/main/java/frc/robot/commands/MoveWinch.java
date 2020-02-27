@@ -37,10 +37,10 @@ public class MoveWinch extends Command {
     }
 
     protected void end() {
-        Robot.winch.winchStop();
+        Winch.winchStop();
     }
     
     protected void interrupted() {
-        Robot.winch.winchStop();
+        Winch.winchStop();
     }
 }

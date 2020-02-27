@@ -24,8 +24,4 @@ public class Shooter extends Subsystem{
     public static void shooterStop() {
         RobotMap.Shooter.set(0);
     }
-
-    public static double getVelocity() {
-        return RobotMap.CANCoder.getVelocity();
-    }
 }
