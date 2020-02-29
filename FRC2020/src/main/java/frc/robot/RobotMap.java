@@ -3,13 +3,23 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Spark;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
+import com.ctre.phoenix.sensors.CANCoder;
+/*
+Cross the Road Electronics (CTRE) Talon and Talon SR Speed Controller.
+
+2.037ms = full "forward"
+1.539ms = the "high end" of the deadband range
+1.513ms = center of the deadband range (off)
+1.487ms = the "low end" of the deadband range
+0.989ms = full "reverse"
+*/
 
 public class RobotMap {
 
@@ -20,17 +30,13 @@ public class RobotMap {
 	public static WPI_TalonSRX Shooter = new WPI_TalonSRX(5);
 	public static WPI_TalonSRX Harvester = new WPI_TalonSRX(6);
 
-	// Spark/Spike motors setup
-	public static Spark Conveyor = new Spark(1);
+	// Old Talon motors setup
+	public static Spark Conveyor = new Spark(0);
 	public static Spark Spinner = new Spark(2);
-	public static Spark Gatherer = new Spark(3);
-	public static Spark Flap = new Spark(4);
+	public static Spark Loader = new Spark(3);
 
-	// Talon SR Speed Controller (used as Spark)
-	public static Talon talon = new Talon(0); //What's the channel?
-
-	//Digital Input setup
-	public static DigitalInput topLimitSwitch = new DigitalInput(0);
+	// Digital Input setup
+	public static DigitalInput bottomLimitSwitch = new DigitalInput(0);
 
 	// Joysticks/Controllers setup
 	public static Joystick leftJoystick = new Joystick(1);
@@ -42,7 +48,12 @@ public class RobotMap {
 	public static ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 	public static ColorMatch colorMatcher = new ColorMatch();
 
+	// RPM SenSor setup
+	public static CANCoder CANCoder = new CANCoder(7);
+
+	// Distance sensor setup
+	public static AnalogInput distanceSensor = new AnalogInput(0);
+
 	// Relay
 	public static Relay GreenLED = new Relay(3);
-
 }

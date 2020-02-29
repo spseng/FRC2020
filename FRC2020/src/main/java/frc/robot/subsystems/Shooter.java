@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.OI;
 
 public class Shooter extends Subsystem{
 
@@ -9,13 +10,12 @@ public class Shooter extends Subsystem{
         // Set the default command for a subsystem here.
     }
 
-    public static void shooterShoot(double speed) {
-        RobotMap.Conveyor.set(2.003);
-        RobotMap.Shooter.set(speed);
+    //starts up shooter motor and lets it speed up
+    public static void initiateShot() {
+        RobotMap.Shooter.set(OI.valueShooterSpeed);
     }
 
     public static void shooterStop() {
-        RobotMap.Conveyor.set(0);
         RobotMap.Shooter.set(0);
     }
 }

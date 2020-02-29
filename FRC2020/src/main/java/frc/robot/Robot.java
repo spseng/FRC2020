@@ -1,50 +1,59 @@
 package frc.robot;
 
-// import edu.wpi.first.wpilibj.CameraServer;
-// import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
-// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer; 
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.MoveWinch;
 import frc.robot.commands.Detector;
+import frc.robot.commands.Shootball;
+import frc.robot.commands.MoveBall;
+import frc.robot.commands.ColorCycleController;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Flap;
-import frc.robot.subsystems.Harvester;
+import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.ColorCycle;
-import frc.robot.RobotMap;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 
 public class Robot extends TimedRobot {
+
 	XboxController xbox = RobotMap.xboxController;
 	Joystick leftstick = RobotMap.leftJoystick;
 	Joystick rightstick = RobotMap.rightJoystick;
 
 	public static DriveTrain driveTrain;
+	public static Shooter shooter;
+	public static Winch winch;
 	public static OI OI;
-
+	public static String colorString;
+	public Timer timer = new Timer(); 
+	
 	boolean Xon = false;
-	public static boolean toggle = false;
 	boolean GreenLED_ON = false;
+	String teamColor;
+	int shooterCycle;
+
 	public final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
 	public final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
 	public final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
 	public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-	public boolean flapButtonPressed = false;
-	public boolean harvesterButtonPressed = false;
-	public Flap flap = new Flap();
-	public Harvester harvester = new Harvester();
+
+	DriverStation.Alliance blueTeam = Alliance.Blue;
+	DriverStation.Alliance redTeam = Alliance.Red;
 
 	@Override
 	public void robotInit() {
 
-		// CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
 		OI = new OI();
 		GreenLED_ON = false;
@@ -53,6 +62,17 @@ public class Robot extends TimedRobot {
 		RobotMap.colorMatcher.addColorMatch(kGreenTarget);
 		RobotMap.colorMatcher.addColorMatch(kRedTarget);
 		RobotMap.colorMatcher.addColorMatch(kYellowTarget);
+
+		if (DriverStation.Alliance.valueOf("Blue") == blueTeam) {
+			Scheduler.getInstance().add(new Detector(true));
+			teamColor = "Blue";
+		} else if (DriverStation.Alliance.valueOf("Red") == redTeam) {
+			Scheduler.getInstance().add(new Detector(false));
+			teamColor = "Red";
+		} else {
+			teamColor = "Invalid";
+		}
+		SmartDashboard.putString("Team Color", teamColor);
 	}
 
 	@Override
@@ -66,28 +86,57 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		timer.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+
+		boolean drive = true;
+		double time = 2.0;
+		double time2 = 4.0;
+		double currentDistance = RobotMap.distanceSensor.getValue() * 0.125;
+
+		if (currentDistance < 40){
+			drive = false;
+			Robot.driveTrain.stop();
+		}
+
+		if ((timer.get() < time)){ // the number represents seconds
+			if (drive){
+				//Robot.driveTrain.tankDrive(0.5, 0.5); //change speed
+				RobotMap.LeftMotor.set(-0.5);
+				RobotMap.RightMotor.set(0.45);
+			}
+		}
+
+		if ( time < timer.get() && timer.get() < time2) {
+			RobotMap.LeftMotor.set(0.5);
+			RobotMap.RightMotor.set(0.45);	
+		}
+	
+		if (timer.get() > time2){
+			Robot.driveTrain.stop();
+		}
 	}
 
 	@Override
 	public void teleopInit() {
-
 		// Init relay
 		RobotMap.GreenLED.set(Relay.Value.kOn);
 		RobotMap.GreenLED.set(Relay.Value.kReverse);
 
-		// Init OI
-		OICommands();
+		Scheduler.getInstance().add(new Shootball());
+		Scheduler.getInstance().add(new MoveWinch());
+		Scheduler.getInstance().add(new MoveBall());
+		Scheduler.getInstance().add(new ColorCycleController());
+		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 
 	@Override
 	public void robotPeriodic() {
 		// periodically gets the detected color from Sensor
 		Color detectedColor = RobotMap.colorSensor.getColor();
-		String colorString;
 		ColorMatchResult match = RobotMap.colorMatcher.matchClosestColor(detectedColor);
 		int proximity = RobotMap.colorSensor.getProximity();
 
@@ -103,87 +152,34 @@ public class Robot extends TimedRobot {
 			colorString = "Unknown";
 		}
 
-		if (OI.shoot() == true) {
-			Shooter.shooterShoot(OI.valueShooterSpeed);
-		} else if (OI.shoot() == false) {
-			Shooter.shooterStop();
-		}
-
-		if (OI.changeShooterSpeed() == 1) {
-			if (OI.valueShooterSpeed < 1) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
-			}
-		} else if (OI.changeShooterSpeed() == 2) {
-			if (OI.valueShooterSpeed > 0) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
-			}
-		}
-
-		if (OI.flap() == true) {
-			if (flapButtonPressed == false) {
-				flap.move();
-				flapButtonPressed = true;
-			}
-		} else {
-			flapButtonPressed = true;
-		}
-
-		if (OI.harvester() == true) {
-			if (harvesterButtonPressed == false) {
-				Harvester.run();
-				harvesterButtonPressed = true;
-			}
-		} else {
-			harvesterButtonPressed = true;
-		}
-
-		if (OI.cycle() == true) {
-			ColorCycle.colorCycleStart();
-		} else if (OI.cycle() == false) {
-			ColorCycle.colorCycleStop();
-		}
-
-		SmartDashboard.putNumber("Red", detectedColor.red);
-		SmartDashboard.putNumber("Blue", detectedColor.blue);
-		SmartDashboard.putNumber("Green", detectedColor.green);
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
-		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
+		SmartDashboard.putNumber("ShooterSpeed", frc.robot.OI.valueShooterSpeed);
+		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
+		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
+		SmartDashboard.putNumber("Bottom Limit Switch", RobotMap.bottomLimitSwitch.get() ? 1:0);
+		SmartDashboard.putNumber("Distance sensor value(in)", RobotMap.distanceSensor.getValue() * 0.125);
+		SmartDashboard.putNumber("Encoder velocity(rpm)", RobotMap.CANCoder.getVelocity() / -360.0);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		/*
-		 * // Left trigger pressed, end OI commands and start tape script if
-		 * (leftstick.getTriggerPressed() && toggle == false) {
-		 * RobotMap.GreenLED.set(Relay.Value.kForward);
-		 * Scheduler.getInstance().removeAll();
-		 * Scheduler.getInstance().add(newautonomous(1)); toggle = true; }
-		 * 
-		 * // Right trigger pressed, end OI commands and start ball script if
-		 * (rightstick.getTriggerPressed() && toggle == false) {
-		 * Scheduler.getInstance().removeAll();
-		 * Scheduler.getInstance().add(newautonomous(2)); toggle = true; }
-		 * 
-		 * // Both triggers released, end autoomous scripts and start OI scripts if
-		 * (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() &&
-		 * toggle){ DriverStation.reportError("TRIGGER", false);
-		 * RobotMap.GreenLED.set(Relay.Value.kReverse);
-		 * Scheduler.getInstance().add(newautonomous(0)); OICommands(); toggle = false;
-		 * }
-		 */
 		Scheduler.getInstance().run();
 
-	}
-
-	// Adds commands to scheduler after leaving vision system control
-	void OICommands() {
-		Scheduler.getInstance().add(new Detector());
-		Scheduler.getInstance().add(new DriveWithJoysticks());
+		if (OI.changeShooterSpeed() == 1) {
+			if (frc.robot.OI.valueShooterSpeed < 1) {
+                frc.robot.OI.valueShooterSpeed = frc.robot.OI.valueShooterSpeed + 0.02;
+			}
+		} else if (OI.changeShooterSpeed() == 2) {
+			if (frc.robot.OI.valueShooterSpeed > 0) {
+                frc.robot.OI.valueShooterSpeed = frc.robot.OI.valueShooterSpeed - 0.02;
+			}
+        }
 	}
 
 	@Override
+	
 	public void testPeriodic() {
 	}
 }
