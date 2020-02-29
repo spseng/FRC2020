@@ -17,12 +17,16 @@ public class ColorCycleController extends Command {
 		if (oi.cycle() == true) {
 			ColorCycle.colorCycleStart();
 		} else if (oi.cycle() == false) {
-			ColorCycle.colorCycleStop();
-        }
-        
-		if (ColorCycle.colorCycleValue == 3) {
-			end();
-		}
+	    	ColorCycle.colorCycleStop();
+		} else if (ColorCycle.colorCycleValue == 3) {
+            end();
+            try { 
+                Thread.sleep(250); 
+            } 
+            catch (Exception e) { 
+                System.out.println(e); 
+            }
+        } 
     }
 
     protected boolean isFinished() {

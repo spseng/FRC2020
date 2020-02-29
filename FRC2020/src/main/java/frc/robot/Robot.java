@@ -91,26 +91,37 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+
 		boolean drive = true;
+		double time = 2.0;
+		double time2 = 4.0;
 		double currentDistance = RobotMap.distanceSensor.getValue() * 0.125;
 
-		if (currentDistance < 12){
+		if (currentDistance < 40){
 			drive = false;
+			Robot.driveTrain.stop();
 		}
 
-		while ((timer.get() < 5)){ // the number represents seconds
+		if ((timer.get() < time)){ // the number represents seconds
 			if (drive){
-				Robot.driveTrain.tankDrive(1.0, 1.0); //change speed
+				//Robot.driveTrain.tankDrive(0.5, 0.5); //change speed
+				RobotMap.LeftMotor.set(-0.5);
+				RobotMap.RightMotor.set(0.45);
 			}
 		}
-		if (timer.get() > 5){
+
+		if ( time < timer.get() && timer.get() < time2) {
+			RobotMap.LeftMotor.set(0.5);
+			RobotMap.RightMotor.set(0.45);	
+		}
+	
+		if (timer.get() > time2){
 			Robot.driveTrain.stop();
 		}
 	}
 
 	@Override
 	public void teleopInit() {
-
 		// Init relay
 		RobotMap.GreenLED.set(Relay.Value.kOn);
 		RobotMap.GreenLED.set(Relay.Value.kReverse);
@@ -144,7 +155,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Confidence", match.confidence);
 		SmartDashboard.putString("Detected Color", colorString);
 		SmartDashboard.putNumber("Proximity", proximity);
-		SmartDashboard.putNumber("ShooterSpeed", OI.valueShooterSpeed);
+		SmartDashboard.putNumber("ShooterSpeed", frc.robot.OI.valueShooterSpeed);
 		SmartDashboard.putNumber("Rotations Completed", ColorCycle.colorCycleValue);
 		SmartDashboard.putNumber("Colors Passed", ColorCycle.colorsPassedValue);
 		SmartDashboard.putNumber("Bottom Limit Switch", RobotMap.bottomLimitSwitch.get() ? 1:0);
@@ -157,17 +168,18 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 
 		if (OI.changeShooterSpeed() == 1) {
-			if (OI.valueShooterSpeed < 1) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed + 0.02;
+			if (frc.robot.OI.valueShooterSpeed < 1) {
+                frc.robot.OI.valueShooterSpeed = frc.robot.OI.valueShooterSpeed + 0.02;
 			}
 		} else if (OI.changeShooterSpeed() == 2) {
-			if (OI.valueShooterSpeed > 0) {
-				OI.valueShooterSpeed = OI.valueShooterSpeed - 0.02;
+			if (frc.robot.OI.valueShooterSpeed > 0) {
+                frc.robot.OI.valueShooterSpeed = frc.robot.OI.valueShooterSpeed - 0.02;
 			}
-		}
+        }
 	}
 
 	@Override
+	
 	public void testPeriodic() {
 	}
 }

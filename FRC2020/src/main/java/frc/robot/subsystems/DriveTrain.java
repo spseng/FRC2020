@@ -20,5 +20,4 @@ public class DriveTrain extends Subsystem {
 		RobotMap.LeftMotor.set(0.0);
 		RobotMap.RightMotor.set(0.0);
 	}
-
 }

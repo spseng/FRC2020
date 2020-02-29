@@ -8,13 +8,13 @@ public class BallManagement extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     }
-
+    
     public static void harvesterForward() {
-        RobotMap.Harvester.set(-0.4);
+        RobotMap.Harvester.set(-0.45);
     }
 
     public static void harvesterBackward() {
-        RobotMap.Harvester.set(0.4);
+        RobotMap.Harvester.set(0.45);
     }
 
     public static void harvesterStop() {

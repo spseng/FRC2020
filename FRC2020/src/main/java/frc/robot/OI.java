@@ -12,7 +12,7 @@ public class OI {
 	Joystick rightStick = RobotMap.rightJoystick;
 	public XboxController xbox = RobotMap.xboxController;
 
-	public double valueShooterSpeed = 0.5;
+	public static double valueShooterSpeed = 0.85;
 
 	Button leftbutton1 = new JoystickButton(leftStick, 1), leftbutton2 = new JoystickButton(leftStick, 2);
 	Button leftbutton3 = new JoystickButton(leftStick, 3), leftbutton4 = new JoystickButton(leftStick, 4);
@@ -35,9 +35,9 @@ public class OI {
 
 	public double getLeftSpeed() {
 		if (leftStick.getY() > 0.01) {
-			return 0.5 * Math.pow(leftStick.getY(), 3) - 0.01;
+			return 0.8 * Math.pow(leftStick.getY(), 3) + 0.01;
 		} else if (leftStick.getY() <= -0.01) {
-			return 0.5 * Math.pow(leftStick.getY(), 3) + 0.01;
+			return 0.8 * Math.pow(leftStick.getY(), 3) - 0.01;
 		} else {
 			return 0.0;
 		}
@@ -45,9 +45,9 @@ public class OI {
 
 	public double getRightSpeed() {
 		if (rightStick.getY() > 0.01) {
-			return 0.5 * -1.0 * Math.pow(rightStick.getY(), 3) + 0.01;
+			return 0.8 * -1.0 * Math.pow(rightStick.getY(), 3) - 0.01;
 		} else if (rightStick.getY() < -0.01) {
-			return 0.5 * -1.0 * Math.pow(rightStick.getY(), 3) - 0.01;
+			return 0.8 * -1.0 * Math.pow(rightStick.getY(), 3) + 0.01;
 		} else {
 			return 0.0;
 		}
