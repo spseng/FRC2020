@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class RobotMap {
 
+	//This is where motors and other component classes are instantiated.
+	//Subsystem classes call these to interact with the Robot.
+
 	// Talons
 	public static WPI_TalonSRX LeftMotor = new WPI_TalonSRX(1);
 	public static WPI_TalonSRX RightMotor = new WPI_TalonSRX(2);

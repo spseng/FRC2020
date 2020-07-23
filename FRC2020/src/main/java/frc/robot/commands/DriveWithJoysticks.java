@@ -15,13 +15,15 @@ public class DriveWithJoysticks extends Command {
     OI oi = Robot.m_oi;
 
     public DriveWithJoysticks() {
+        //This allows only the current command to use the subsystem. 
+		//Mainly used when the subsystem has a physicall device like a motor controller
         requires(Robot.driveTrain);
     }
 
     protected void initialize() {
     }
 
-    protected void execute() {
+    protected void execute() { //Runs when the command is called by the Scheduler
         // Passes OI input into drive train
         Robot.driveTrain.tankDrive(oi.getLeftSpeed(), oi.getRightSpeed());
     }

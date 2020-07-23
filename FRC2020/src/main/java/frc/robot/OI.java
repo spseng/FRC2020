@@ -14,6 +14,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 public class OI {
 
+	//Instantiate peripherals like joysticks here
+
+	//Each method is called in a Command class to get data from the driver.
+	//A Command will then call a Subsystem to send information to the robot.
+
 	boolean grabberState = true;
 	Joystick leftStick = RobotMap.leftJoystick;
 	Joystick rightStick = RobotMap.rightJoystick;

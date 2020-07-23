@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		//Instantiate subsystems here. 
+		//Subsystem classes should only preform basic controls
 
 		//CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
+	//These are functions for the Autonomous period
 	@Override
 	public void autonomousInit() {
 	}
@@ -67,6 +70,7 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 	}
 
+	//Run at the beginning of the Teleop Period
 	@Override
 	public void teleopInit() {
 
@@ -108,6 +112,8 @@ public class Robot extends TimedRobot {
 			toggle = false;
 		}
 
+		//After a command is added to the Scheduler, its execute function is 
+		//called at each iteration of teleopPeriodic
 		Scheduler.getInstance().run();
 
 	}
