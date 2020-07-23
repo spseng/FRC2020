@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-The FRC 2020 Java/VS Code WPI (screensteps)[https://docs.wpilib.org/en/stable/index.html] have been completed in their entirety.
+The FRC 2020 Java/VS Code WPI [screensteps](https://docs.wpilib.org/en/stable/index.html) have been completed in their entirety.
 
 For Driver's Station laptop, complete screensteps FRC Game Tools installation as well.
 
@@ -15,13 +15,13 @@ For Driver's Station laptop, complete screensteps FRC Game Tools installation as
 
 Install [git](https://git-scm.com/downloads)
 
-Go through (CTRE installation steps)[https://phoenix-documentation.readthedocs.io/en/latest/ch05_PrepWorkstation.html] and (add CTRE Libraries to your Project)[https://phoenix-documentation.readthedocs.io/en/latest/ch05a_CppJava.html]
+Go through [CTRE installation steps](https://phoenix-documentation.readthedocs.io/en/latest/ch05_PrepWorkstation.html) and [add CTRE Libraries to your Project](https://phoenix-documentation.readthedocs.io/en/latest/ch05a_CppJava.html)
 
 That's it, you are ready to code!
 
 ### Preparing the Robot
 
-Follow (screensteps)[https://docs.wpilib.org/en/stable/index.html] instructions for:
+Follow [screensteps](https://docs.wpilib.org/en/stable/index.html) instructions for:
 * Updating roboRIO firmware with roboRIO Imaging Tool
 * Updating Radio firmware with Radio Configuration Utility
 
@@ -31,11 +31,11 @@ When deploying code to the Robot for the first time, sometimes Gradlew will thro
 
 ## Using RaspberryPi
 
-To communicate with roboRIO, use (PyNetworkTables docs)[https://robotpy.readthedocs.io/projects/pynetworktables/en/stable/examples.html]
+To communicate with roboRIO, use [PyNetworkTables docs](https://robotpy.readthedocs.io/projects/pynetworktables/en/stable/examples.html)
 
-For Vision Processing, (GRIP)[https://wpiroboticsprojects.github.io/GRIP/#/] is useful for generating code to filter colors and find lines or contours. It is occasionally prone to crashing.
+For Vision Processing, [GRIP](https://wpiroboticsprojects.github.io/GRIP/#/) is useful for generating code to filter colors and find lines or contours. It is occasionally prone to crashing.
 
-GRIP code and most computer vision applications require OpenCV to be installed. The installation process on a RaspberryPi can be found (here)[https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/]. It can take a while.
+GRIP code and most computer vision applications require OpenCV to be installed. The installation process on a RaspberryPi can be found [here](https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/). It can take a while.
 
 ## Contributing
 
