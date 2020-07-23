@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 //This class looks pretty important but there's really not a whole lot to do here.
 public final class Main {
-  private Main() {
-  }
-
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+	private Main() {
+	}
+	public static void main(String... args) {
+    	RobotBase.startRobot(Robot::new);
+	}
 }

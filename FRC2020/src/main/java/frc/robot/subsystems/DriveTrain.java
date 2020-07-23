@@ -6,7 +6,7 @@ import frc.robot.RobotMap;
 public class DriveTrain extends Subsystem {
 
 	public void initDefaultCommand() {
-		// setDefaultCommand(new DriveWithJoysticks());
+	
 	}
 
 	public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -20,5 +20,4 @@ public class DriveTrain extends Subsystem {
 		RobotMap.LeftMotor.set(0.0);
 		RobotMap.RightMotor.set(0.0);
 	}
-
 }

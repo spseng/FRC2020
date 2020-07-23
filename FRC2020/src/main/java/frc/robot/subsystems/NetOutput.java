@@ -8,36 +8,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NetOutput extends Subsystem {
 
+	// set red is true and blue as false
 	int input;
 	NetworkTableInstance net = NetworkTableInstance.getDefault();
-	NetworkTable chooser_table = net.getTable("chooser_data");
+	NetworkTable team_data = net.getTable("team_data");
 	NetworkTable ball_table = net.getTable("ball_data");
-	NetworkTable tape_table = net.getTable("tape_data");
+	NetworkTable ps_table = net.getTable("ps_data");
 
-	public NetOutput(int user_input) {
-		// Initialize network tables
-		SmartDashboard.putNumber("DetectorScript choice", user_input);
+	public NetOutput() {
 
-		input = user_input;
+	}
 
-		// Kill all processes and start selected script
-		chooser(input);
-		// Wait for startup
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public void update_choice(int choice) {
+		input = choice;
+		SmartDashboard.putNumber("DetectorScript choice", choice);
+	}
+
+	//Blue: true
+	//Red: false
+	public void update_team_color(Boolean color) {
+		NetworkTableEntry team_color = team_data.getEntry("team_color");
+		team_color.setBoolean(color);
 	}
 
 	public double[] get_output_of_selected_action() {
 
-		// Value 0 stops all scripts
-		SmartDashboard.putNumber("netOutput input", input);
+		// Value 0 returns nothing
+		SmartDashboard.putNumber("DetectorScript choice", input);
 
 		if (input == 1) {
 			// Return network table value
-			return get_data(tape_table);
+			return get_data(ps_table);
 		} else if (input == 2) {
 			// Return network table value
 			return get_data(ball_table);
@@ -48,14 +49,6 @@ public class NetOutput extends Subsystem {
 		def[0] = 0;
 
 		return def;
-	}
-
-	public void chooser(int choice) {
-		// Get entry
-		NetworkTableEntry choice_entry = chooser_table.getEntry("choice");
-
-		// Place value in NetworkTable
-		choice_entry.setDouble(choice);
 	}
 
 	public double[] get_data(NetworkTable table) {
@@ -76,6 +69,11 @@ public class NetOutput extends Subsystem {
 		else {
 			def = convert(netOut);
 		}
+
+		// For networktables communication test
+		SmartDashboard.putNumber("Detected midpoint x", def[0]);
+		SmartDashboard.putNumber("Detected midpoint y", def[1]);
+		SmartDashboard.putNumber("Detected width/radius", def[2]);
 
 		return def;
 	}
