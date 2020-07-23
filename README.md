@@ -15,7 +15,7 @@ For Driver's Station laptop, complete screensteps FRC Game Tools installation as
 
 Install [git](https://git-scm.com/downloads)
 
-Go through (CTRE installation steps)[https://phoenix-documentation.readthedocs.io/en/latest/ch05_PrepWorkstation.html]
+Go through (CTRE installation steps)[https://phoenix-documentation.readthedocs.io/en/latest/ch05_PrepWorkstation.html] and (add CTRE Libraries to your Project)[https://phoenix-documentation.readthedocs.io/en/latest/ch05a_CppJava.html]
 
 That's it, you are ready to code!
 
@@ -26,6 +26,8 @@ Follow (screensteps)[https://docs.wpilib.org/en/stable/index.html] instructions 
 * Updating Radio firmware with Radio Configuration Utility
 
 Then update Talon motor controller firmware using Phoenix Tuner
+
+When deploying code to the Robot for the first time, sometimes Gradlew will throw an error. Running it with an internet connection will allow it to update and then it should be fine.
 
 ## Using RaspberryPi
 
