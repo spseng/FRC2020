@@ -7,15 +7,35 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-The FRC 2020 Java/Eclipse WPI screensteps have been completed in their entirety
+The FRC 2020 Java/VS Code WPI [screensteps](https://docs.wpilib.org/en/stable/index.html) have been completed in their entirety.
+
+For Driver's Station laptop, complete screensteps FRC Game Tools installation as well.
 
 ### Installing
 
 Install [git](https://git-scm.com/downloads)
 
-Go through [CTRE installation steps](http://www.ctr-electronics.com/downloads/pdf/CTRE%20Toolsuite%20Installation%20Guide.pdf)
+Go through [CTRE installation steps](https://phoenix-documentation.readthedocs.io/en/latest/ch05_PrepWorkstation.html) and [add CTRE Libraries to your Project](https://phoenix-documentation.readthedocs.io/en/latest/ch05a_CppJava.html)
 
 That's it, you are ready to code!
+
+### Preparing the Robot
+
+Follow [screensteps](https://docs.wpilib.org/en/stable/index.html) instructions for:
+* Updating roboRIO firmware with roboRIO Imaging Tool
+* Updating Radio firmware with Radio Configuration Utility
+
+Then update Talon motor controller firmware using Phoenix Tuner
+
+When deploying code to the Robot for the first time, sometimes Gradlew will throw an error. Running it with an internet connection will allow it to update and then it should be fine.
+
+## Using RaspberryPi
+
+To communicate with roboRIO, use [PyNetworkTables docs](https://robotpy.readthedocs.io/projects/pynetworktables/en/stable/examples.html)
+
+For Vision Processing, [GRIP](https://wpiroboticsprojects.github.io/GRIP/#/) is useful for generating code to filter colors and find lines or contours. It is occasionally prone to crashing.
+
+GRIP code and most computer vision applications require OpenCV to be installed. The installation process on a RaspberryPi can be found [here](https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/). It can take a while.
 
 ## Contributing
 
